@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 import enum
 import eel
+from openpyxl import load_workbook
 
 
 
@@ -943,9 +944,8 @@ def OneTime(DateIn, DayofWeek, LapIn, ActIn):
         #DANGER
         #DANGER
         #DANGER
-        if Test == False: 
-            print("submitted: " + texttime)
-            #driver.find_element_by_class_name("btn-pink").click()
+
+        #driver.find_element_by_class_name("btn-pink").click()
         #DANGER
         #DANGER
         #DANGER
@@ -956,9 +956,14 @@ def OneTime(DateIn, DayofWeek, LapIn, ActIn):
 
         driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
 
-
-def ChemCheck(DateIn, LapIn, ActIn):
-    print("ran Chem") 
+@eel.expose
+def ChemCheck():
+    
+     
+    wb = load_workbook(filename= "ChemicalRecordTemplate.xlsx")
+    LapSheet = wb["Central Park Central P...-9181"]
+    ActSheet = wb["Central Park Central P...-9191"]
+    #print(sheet['A1'].value)    
 
 
 def SetupChem():
@@ -970,7 +975,7 @@ def SetupPatron():
 def main():
     #goes to folder Website and launcher main.html 
     eel.init('Website')
-    eel.start('home.html')
+    eel.start('ChemCheck.html')
 #if its main run main 
 if __name__ == "__main__":
     main()

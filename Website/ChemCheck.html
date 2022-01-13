@@ -4,6 +4,20 @@
         p {
             float:left; 
             display: block;
+            size:3em; 
+        }
+        ul {
+            display:block; 
+            float:left; 
+            width:100%; 
+        }
+        input {
+            width:3em;  
+        }
+
+        .heading {
+            padding-left:1em; 
+            padding-right:1em;
         }
     </style>
 <head> 
@@ -11,14 +25,66 @@
 </head>
 <body onload="main()">
     <a href = "home.html">HOME</a>
+    <button onclick="RunChem()">Test</button>
 <li>
     <ul>
-        <p>Time</p>
-        <input id = "">
-        <input>
-        <input>
-        <input>
-        
+        <p class = "heading">CL</p>
+        <p class = "heading">ORP</p>
+        <p class = "heading">PH</p>
+        <p class = "heading">TA</p>
+        <p class = "heading">Flow</p>
+        <p class = "heading">Temp</p>
+        <p class = "heading">Initials</p>
+    </ul>
+    <ul>
+        <p>Open</p>
+        <input id = "CL1">
+        <input id = "ORP1">
+        <input id = "PH1">
+        <input id = "TA1">
+        <input id = "FlOW1">
+        <input id = "TEMP1">
+        <input id = "INITIALS1">
+    </ul>
+    <ul>
+        <p>10:30</p>
+        <input id = "CL2">
+        <input id = "ORP2">
+        <input id = "PH2">
+        <input id = "TA2">
+        <input id = "FlOW2">
+        <input id = "TEMP2">
+        <input id = "INITIALS2">
+    </ul>
+    <ul>
+        <p>12:30</p>
+        <input id = "CL3">
+        <input id = "ORP3">
+        <input id = "PH3">
+        <input id = "TA3">
+        <input id = "FlOW3">
+        <input id = "TEMP3">
+        <input id = "INITIALS3">
+    </ul>
+    <ul>
+        <p>2:30</p>
+        <input id = "CL4">
+        <input id = "ORP4">
+        <input id = "PH4">
+        <input id = "TA4">
+        <input id = "FlOW4">
+        <input id = "TEMP4">
+        <input id = "INITIALS4">
+    </ul>
+    <ul>
+        <p>4:30</p>
+        <input id = "CL5">
+        <input id = "ORP5">
+        <input id = "PH5">
+        <input id = "TA5">
+        <input id = "FlOW5">
+        <input id = "TEMP5">
+        <input id = "INITIALS5">
     </ul>
 
 </li>
@@ -26,7 +92,14 @@
 </html>
 <script type="text/javascript" src="/eel.js"></script>
 <script>
+    Date = "1/10/2022";
+    DayofWeek = 0; 
+    Lap = [];
+    Activity = [];
     function main() {
 
+    }
+    function RunChem()  {
+        eel.ChemCheck();
     }
 </script>
