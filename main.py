@@ -1,3 +1,4 @@
+import abc
 import os
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -962,11 +963,12 @@ def OneTime(DateIn, DayofWeek, LapIn, ActIn):
 @eel.expose
 def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN):
     
-     
-    wb = load_workbook(filename= "ChemicalRecordTemplate.xlsx")
+    xcelname = "ChemicalRecordTemplate.xlsx"
+    wb = load_workbook(filename= xcelname)
     LapSheet = wb["Central Park Central P...-9181"]
     ActSheet = wb["Central Park Central P...-9191"]
     
+    wb.save(xcelname)
     #print(sheet['A1'].value)    
 
 
@@ -975,11 +977,30 @@ def SetupChem():
 def SetupPatron():
     print("setting up patron")
 
+def ClearXcel():
+    xcelname = "ChemicalRecordTemplate.xlsx"
+    wb = load_workbook(filename= xcelname)
+    LapSheet = wb["Central Park Central P...-9181"]
+    ActSheet = wb["Central Park Central P...-9191"]
+    x =4
+    print("runing")
+    while x < 104: 
+        y =0
+        while y < 14:
+            LapSheet[chr(65+y)+str(x)] = ""
+            ActSheet[chr(65+y)+str(x)] = ""
+            print("doing shit ")
+            y+=1
+        x+=1
+    wb.save(xcelname)
+            
 
 def main():
     #goes to folder Website and launcher main.html 
+    
     eel.init('Website')
-    eel.start('PatronCheck.html')
+    eel.start('ChemCheck.html')
+
 #if its main run main 
 if __name__ == "__main__":
     main()
