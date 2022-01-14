@@ -12,7 +12,8 @@ function main() {
 }
 function RunChem()  {
     Submit(); 
-    eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS);
+    TDate = document.getElementById("Date").value; 
+    eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate);
 }
 function ClickLap() {
     console.log(document.getElementById("Actinput").value)
@@ -29,7 +30,7 @@ function Submit() {
     }
     for(let y = 0; y< 7; y++) {
         var Cat = categories[y]
-        for(let x =0; x< 5; x++) {
+        for(let x =0; x< 6; x++) {
             if(document.getElementById(Cat + String(x+1)).value == "") {
                 if(Cat == "INITIALS") {
                     eval(Cat).push("n/a"); 

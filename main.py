@@ -1,5 +1,7 @@
-import abc
-import os
+
+from ast import Global
+from distutils.version import Version
+from turtle import update
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -7,7 +9,7 @@ import time
 import enum
 import eel
 from openpyxl import load_workbook
-
+import requests
 
 
 #GLOBALS 
@@ -24,6 +26,10 @@ Password = ""
 #open chrome 
 driver = webdriver.Chrome()
 
+CurrentVersion = 1.1 
+VersionIn = 0
+updatelogs = []
+DisplayedUpdate = False 
 #close Everything 
 @eel.expose
 def EndProgram():
@@ -94,7 +100,7 @@ def PyPrint(print):
 
 #the main function !
 @eel.expose
-def Start():
+def StartPro():
     print("program started")
     BLoadLogin = LoadLogin()
     #check if login was able to be done if not load the setup page if not login! 
@@ -959,15 +965,29 @@ def OneTime(DateIn, DayofWeek, LapIn, ActIn):
 
 
         driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
-
+CurWriteLine = 4 
 @eel.expose
-def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN):
-    
+def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN):
+    global CurWriteLine; 
+    AllTimes = ["Open", "10:30", "12:30", "2:30", "4:30","Close"]
     xcelname = "ChemicalRecordTemplate.xlsx"
     wb = load_workbook(filename= xcelname)
     LapSheet = wb["Central Park Central P...-9181"]
     ActSheet = wb["Central Park Central P...-9191"]
-    
+    x = 0
+    while x < 6:
+        LapSheet["A" + str(CurWriteLine)] = DateIN
+        LapSheet["B" + str(CurWriteLine)] = AllTimes[x]
+        LapSheet["C" + str(CurWriteLine)] = "Martin,Harrison"
+        LapSheet["F" + str(CurWriteLine)] = CLIN[x]
+        LapSheet["G" + str(CurWriteLine)] = PHIN[x]
+        LapSheet["F" + str(CurWriteLine)] = CLIN[x]
+        LapSheet["J" + str(CurWriteLine)] = "Clear"
+        LapSheet["K" + str(CurWriteLine)] = TAIN[x]
+        LapSheet["H" + str(CurWriteLine)] = TEMPIN[x]
+        LapSheet["M" + str(CurWriteLine)] = ORPIN[x]
+        x+=1 
+        CurWriteLine += 1
     wb.save(xcelname)
     #print(sheet['A1'].value)    
 
@@ -976,7 +996,7 @@ def SetupChem():
     print("settingup chems")
 def SetupPatron():
     print("setting up patron")
-
+#clear Xcel Sheet ! 
 def ClearXcel():
     xcelname = "ChemicalRecordTemplate.xlsx"
     wb = load_workbook(filename= xcelname)
@@ -993,13 +1013,42 @@ def ClearXcel():
             y+=1
         x+=1
     wb.save(xcelname)
-            
+@eel.expose         
+def home():
+    global VersionIn
+    global DisplayedUpdate
+    url = 'https://pastebin.com/raw/bB4wBAPP'
+    req = requests.get(url)
+    FileVersion = open("Version.txt" , "r")
+    txin = 0
+    for line in FileVersion:
+        if(txin == 0):
+            CurrentVersion = float(line)
+        txin += 1 
+    FileVersion.close()
 
+    Lines = req.text.split("\n")
+    cur = 0 
+    for x in Lines: 
+        if cur == 0: 
+            VersionIn = float(x)
+        elif DisplayedUpdate == False:
+            updatelogs.append(str(x))
+            
+        cur +=1
+    print(updatelogs)
+    if CurrentVersion < VersionIn:
+        eel.AddModal(VersionIn,updatelogs)
+        DisplayedUpdate = True
+    
+
+    
+    
 def main():
     #goes to folder Website and launcher main.html 
     
     eel.init('Website')
-    eel.start('ChemCheck.html')
+    eel.start('home.html')
 
 #if its main run main 
 if __name__ == "__main__":

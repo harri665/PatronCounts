@@ -21,7 +21,7 @@ function LoadSetupPage() {
 eel.expose(LoadMainPage)
 eel.expose(LoadSetupPage)
 function runMain() {
-    eel.Start(); 
+    eel.StartPro(); 
 }
 function RunProgram() {
     var DateIn =  document.getElementById("date").value; 
