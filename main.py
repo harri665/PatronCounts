@@ -28,6 +28,9 @@ driver = webdriver.Chrome()
 def EndProgram():
     driver.quit()
     quit(1)
+def close_callback(route, websockets):
+    if not websockets:
+        EndProgram() 
 
 #saves login to file
 @eel.expose
@@ -957,12 +960,13 @@ def OneTime(DateIn, DayofWeek, LapIn, ActIn):
         driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
 
 @eel.expose
-def ChemCheck():
+def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN):
     
      
     wb = load_workbook(filename= "ChemicalRecordTemplate.xlsx")
     LapSheet = wb["Central Park Central P...-9181"]
     ActSheet = wb["Central Park Central P...-9191"]
+    
     #print(sheet['A1'].value)    
 
 
@@ -975,7 +979,7 @@ def SetupPatron():
 def main():
     #goes to folder Website and launcher main.html 
     eel.init('Website')
-    eel.start('ChemCheck.html')
+    eel.start('PatronCheck.html')
 #if its main run main 
 if __name__ == "__main__":
     main()

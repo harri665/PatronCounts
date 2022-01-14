@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src = "setup.js"></script>
 <head> 
     <title>Patron Counts (Digiquatics v2) Setup  </title>
 </head>
@@ -12,11 +14,4 @@
     <button onclick="Save()">Set</button>
 </body>
 </html>
-<script type="text/javascript" src="/eel.js"></script>
-<script>
-    function Save() {
-        eel.SaveLogin(document.getElementById("username").value, document.getElementById("password").value); 
-        window.location("PatronCheck.html")
-    }
 
-</script> 
