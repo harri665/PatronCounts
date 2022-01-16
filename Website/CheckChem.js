@@ -1,19 +1,25 @@
 Date = "1/10/2022";
 DayofWeek = 0;
 CL = [];
-ORP = [];
+ORP = []; 
 PH = []; 
 TA = []; 
 FLOW = []; 
 TEMP = []; 
 INITIALS = []; 
-function main() {
-
+RadioValue = 3; 
+function Setup() {
+    eel.SetupChem(); 
 }
 function RunChem()  {
     Submit(); 
     TDate = document.getElementById("Date").value; 
-    eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate);
+    if(RadioValue == 3) {
+        console.log("select lap or act"); 
+    } else {
+        eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate, RadioValue);
+    }
+    
 }
 function ClickLap() {
     console.log(document.getElementById("Actinput").value)
@@ -45,4 +51,10 @@ function Submit() {
         console.log(Cat); 
     }
     
+}
+function SelLap() {
+    RadioValue =0
+}
+function SelAct() {
+    RadioValue =1 
 }

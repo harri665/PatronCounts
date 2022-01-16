@@ -12,16 +12,14 @@ var AWeekend = ["8:00AM","9:00AM","10:00AM","10:00AM","10:00AM","11:00AM","11:00
 var LapCount = 0; 
 var ActCount =0; 
 
-function LoadMainPage() {
+function LoadMainPage() { 
     window.location = "PatronCheck.html"
 }
-function LoadSetupPage() {
-    window.location = "seetup.html"
-}
+
 eel.expose(LoadMainPage)
-eel.expose(LoadSetupPage)
-function runMain() {
-    eel.StartPro(); 
+
+function Setup() { 
+    eel.SetupPatron(); 
 }
 function RunProgram() {
     var DateIn =  document.getElementById("date").value; 
@@ -78,8 +76,9 @@ function CreateInputs(LapIn, ActIn) {
     const para2 = document.createElement("p");
     const node2 = document.createTextNode("Lap");
     para2.appendChild(node2);
-    const Doc = document.getElementById("div1");
+    const Doc = document.getElementById("PatronLap");
     Doc.appendChild(para2);
+    para2.classList.add("Patron_Lap_Act_Label"); 
 
     //ul
     //  ul
@@ -106,24 +105,30 @@ function CreateInputs(LapIn, ActIn) {
             InputLi.className = "ListPoint"; 
             const InputField = document.createElement("input"); 
             InputField.id = "InputLap" + x.toString(); 
-            InputField.style = "width:100%; height:100%; display:inline; ";
+            //InputField.class = "PatronInputField";
+            InputField.classList.add("PatronInputField")
             const TimeField = document.createElement("label"); 
+            TimeField.classList.add("PatronInputText"); 
             const Timefill = document.createTextNode(Times[x]); 
             TimeField.appendChild(Timefill); 
-            TimeLi.appendChild(TimeField); 
-            InputLi.appendChild(InputField);
-            OverALLUL.appendChild(TimeLi);
-            OverALLUL.appendChild(InputLi); 
+            OverALLUL.appendChild(TimeField);
+            OverALLUL.appendChild(InputField);
+            //TimeLi.appendChild(TimeField); 
+            //InputLi.appendChild(InputField);
+            //OverALLUL.appendChild(TimeLi);
+            //OverALLUL.appendChild(InputLi); 
             Doc.appendChild(OverALLUL); 
         }
 
         
 
     //Creates the word activiity 
-    const Doc1 = document.getElementById("div2");
+    const Doc1 = document.getElementById("PatronAct");
     const para = document.createElement("p");
+    para.classList.add("Patron_Lap_Act_Label")
     const node = document.createTextNode("Activity");
     para.appendChild(node);
+    
     
     Doc1.appendChild(para);
 
@@ -147,15 +152,20 @@ function CreateInputs(LapIn, ActIn) {
             InputLi.className = "ListPoint"; 
             const InputField = document.createElement("input"); 
             InputField.id = "InputAct" + x.toString(); 
-            InputField.style = "width:100%; height:100%; display:inline; ";
+            //InputField.class = "PatronInputField";
+            InputField.classList.add("PatronInputField")
             const TimeField = document.createElement("label"); 
+            TimeField.classList.add("PatronInputText"); 
             TimeField.style = ""; 
             const Timefill = document.createTextNode(Times[x]); 
             TimeField.appendChild(Timefill); 
-            TimeLi.appendChild(TimeField); 
-            InputLi.appendChild(InputField);
-            OverALLUL.appendChild(TimeLi);
-            OverALLUL.appendChild(InputLi); 
+            OverALLUL.appendChild(TimeField);
+            OverALLUL.appendChild(InputField);
+            //TimeLi.appendChild(TimeField); 
+            //InputLi.appendChild(InputField);
+            //OverALLUL.appendChild(TimeLi);
+            //OverALLUL.appendChild(InputLi); 
+
             Doc1.appendChild(OverALLUL); 
         }
 
@@ -163,11 +173,12 @@ function CreateInputs(LapIn, ActIn) {
     //create the button 
     const para1 = document.createElement("button");
     const node1 = document.createTextNode("RUN!!!");
-    
+    //here
     para1.appendChild(node1);
-
     const body = document.body; 
-    body.appendChild(para1);
+    //body.appendChild(para1);
+    document.getElementById("RunButton").appendChild(para1);    
+    document.getElementById("PatronSetupSt").style.width = "620px";
     para1.onclick = function() { SubmitALL();  };
     para1.id = "SUBMITALL"; 
 
@@ -215,7 +226,7 @@ function SubmitALL() {
     TDay = TempDate.substring(8,10); 
     TempDate = TMonth + "/" + TDay + "/" + TYear + " "; 
     //eel.TakeDate(TempDate); 
-    eel.OneTime(TempDate,  new Date(document.getElementById("date").value).getDay(), AllValsLap, AllValsAct); 
+    eel.PatronCheck(TempDate,  new Date(document.getElementById("date").value).getDay(), AllValsLap, AllValsAct); 
 
 }
 

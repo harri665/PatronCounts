@@ -1,0 +1,158 @@
+body {
+    background-color: rgb(49, 49, 49);
+    font-family: roboto,sans-serif;
+    margin:0; 
+}
+.PatronInputField {
+    display:inline-block; 
+    background-color: whitesmoke;
+    border-radius: 0.5em;
+    width:35%; 
+    height:100%; 
+}
+#PatronLap {
+    width:50%; 
+    display:block; 
+    float:left; 
+    padding:0; 
+}
+#PatronAct {
+    width:50%;
+    display:block; 
+    float:right; 
+    padding:0; 
+}
+.PatronInputText {
+    display: inline-block;
+    width:50%; 
+    padding-right:10%; 
+    text-align: right;
+    background-color: #434fa3;
+    
+    border-radius: 5px;
+    font-weight: 900;
+    font-size:1em; 
+    
+    
+    
+}
+input:focus{
+    background-color: rgba(0, 255, 0, 0.377);
+    color:white; 
+
+}
+.Overall {
+    background-color: #293063;
+    border: 2px solid rgb(0, 68, 85);
+    padding:0; 
+    width:100%; 
+}
+.Patron_Lap_Act {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.Patron_Lap_Act_Label {
+    width: 100%;
+    background-color: white;
+    text-align: center;
+    font-size: 4em;
+    font-weight: 900;
+    margin:0; 
+
+}
+.NavBar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #434fa3;
+    color: white;
+    font-weight: 1000;
+}
+.NavEle {
+    float:left; 
+    cursor: pointer;
+}
+.NavEle:hover {
+    background-color: #0d0f20;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li button {
+    color:white; 
+    font-weight: 1000;
+    border: none;
+    cursor: pointer;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    background-color: transparent;
+}
+
+.PatronSetup {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #293063;
+    color: white;
+    font-weight: 1000;
+    width:510px; 
+}
+#date {
+    display:block;
+    height:100%; 
+}
+
+.Modal {
+    width: 50%;
+    color: white;
+    background-color:rgb(24, 24, 24);
+    padding: 10px; 
+}
+h1 {
+    font-size: auto;
+}
+#UpdateLog {
+    position: fixed;
+    bottom:0; 
+    right: 0; 
+    border:0; 
+    padding:10px; 
+    cursor: pointer;
+    background-color: darkgreen;
+    color:white; 
+}
+#UpdateLog:hover {
+    background-color: rgb(0, 34, 0);
+    color:white;
+}
+
+.ModelOver {
+    position: fixed;
+    top:0; 
+    left:0; 
+    background-color: rgba(0, 0, 0, 0.863);
+    color:white; 
+    width:100%; 
+    height: 100%;
+}
+#close {
+    position:fixed; 
+    top:0; 
+    right:0; 
+}
+
+#SUBMITALL {
+    background-color: green;
+}
+#SUBMITALL:hover {
+    background-color: darkgreen;
+}
