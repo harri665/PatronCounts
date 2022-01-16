@@ -1,11 +1,29 @@
+:root {
+    --background: rgb(49, 49, 49);
+    --white: white;
+    --TextColor: white;
+    --PrimaryColor:#293063;
+    --SecondaryColor:#434fa3; 
+    --HoverColor:#0d0f20; 
+    --RunColor:green; 
+    --RunColorHover:darkgreen; 
+    --ModalBackground:rgba(0, 0, 0, 0.863); 
+    --FocusColor:rgba(0, 255, 0, 0.377); 
+    --CloseColor: darkred; 
+    --CloseColorHover:rgb(59, 0, 0);
+    --BlackText:black; 
+    --ErrorColor:red;
+
+  }
+
 body {
-    background-color: rgb(49, 49, 49);
+    background-color: var(--background);
     font-family: roboto,sans-serif;
     margin:0; 
 }
 .PatronInputField {
     display:inline-block; 
-    background-color: whitesmoke;
+    background-color: var(--white);
     border-radius: 0.5em;
     width:35%; 
     height:100%; 
@@ -27,7 +45,7 @@ body {
     width:50%; 
     padding-right:10%; 
     text-align: right;
-    background-color: #434fa3;
+    background-color: var(--SecondaryColor);
     
     border-radius: 5px;
     font-weight: 900;
@@ -37,12 +55,12 @@ body {
     
 }
 input:focus{
-    background-color: rgba(0, 255, 0, 0.377);
-    color:white; 
+    background-color: var(--FocusColor);
+    color:var(--TextColor); 
 
 }
 .Overall {
-    background-color: #293063;
+    background-color: var(--PrimaryColor);
     border: 2px solid rgb(0, 68, 85);
     padding:0; 
     width:100%; 
@@ -54,7 +72,7 @@ input:focus{
 }
 .Patron_Lap_Act_Label {
     width: 100%;
-    background-color: white;
+    background-color: var(--white);
     text-align: center;
     font-size: 4em;
     font-weight: 900;
@@ -66,8 +84,8 @@ input:focus{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #434fa3;
-    color: white;
+    background-color: var(--SecondaryColor);
+    color: var(--TextColor);
     font-weight: 1000;
 }
 .NavEle {
@@ -76,17 +94,17 @@ input:focus{
     height: 100%;
 }
 .NavEle:hover {
-    background-color: #0d0f20;
+    background-color: var(--HoverColor);
 }
 li a {
     display: block;
-    color: white;
+    color: var(--TextColor);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
 li button {
-    color:white; 
+    color:var(--TextColor); 
     font-weight: 1000;
     border: none;
     cursor: pointer;
@@ -102,7 +120,7 @@ li button {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #293063;
+    background-color: var(--PrimaryColor);
     color: white;
     font-weight: 1000;
     width:480px; 
@@ -112,10 +130,10 @@ li button {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #293063;
-    color: white;
+    background-color: var(--PrimaryColor);
+    color: var(--TextColor);
     font-weight: 1000;
-    width:690px; 
+    width:735px; 
 }
 #date {
     display:block;
@@ -124,8 +142,8 @@ li button {
 
 .Modal {
     width: 50%;
-    color: white;
-    background-color:rgb(24, 24, 24);
+    color: var(--TextColor);
+    background-color: var(--ModalBackground);
     padding: 10px; 
 }
 h1 {
@@ -138,20 +156,20 @@ h1 {
     border:0; 
     padding:10px; 
     cursor: pointer;
-    background-color: darkgreen;
-    color:white; 
+    background-color: var(--RunColor);
+    color:var(--TextColor); 
 }
 #UpdateLog:hover {
-    background-color: rgb(0, 34, 0);
-    color:white;
+    background-color: var(--RunColorHover);
+    color:var(--TextColor);
 }
 
 .ModelOver {
     position: fixed;
     top:0; 
     left:0; 
-    background-color: rgba(0, 0, 0, 0.863);
-    color:white; 
+    background-color: var(--ModalBackground);
+    color:var(--TextColor); 
     width:100%; 
     height: 100%;
 }
@@ -159,23 +177,23 @@ h1 {
     position:fixed; 
     top:0; 
     right:0; 
-    background-color: darkred;
-    color:white; 
+    background-color: var(--CloseColor);
+    color: var(--TextColor); 
     border:0; 
     padding:2%; 
     font-weight: 900;
     font-size: 1em;
 }
 #close:hover {
-    background-color: rgb(59, 0, 0);
+    background-color: var(--CloseColorHover);
     cursor: pointer;
 }
 
 #SUBMITALL {
-    background-color: green;
+    background-color: var(--RunColor);
 }
 #SUBMITALL:hover {
-    background-color: darkgreen;
+    background-color: var(--RunColorHover);
 }
 .ChemIn {
     width: 100%;
@@ -183,19 +201,22 @@ h1 {
 }
 .ChemIn input{
     
-    background-color: whitesmoke;
+    background-color: var(--white);
     padding:0; 
     border:0; 
-    width:8%; 
+    width:10%; 
     height:100%; 
     
 
 
 }
 .ChemIn input:focus{
-    background-color: rgba(0, 255, 0, 0.377);
+    background-color: var(--FocusColor);
 }
-
+.row input {
+    color:var(--BlackText);
+    font-weight: 900;
+}
 .row label {
     display: inline-block;
     padding: 0;
@@ -203,7 +224,8 @@ h1 {
     width: 20%;
     margin:0; 
     text-align: center;
-    background-color: #434fa3;
+    background-color: var(--SecondaryColor);
+    color:var(--TextColor);
     
     
     
@@ -213,27 +235,29 @@ h1 {
     
     margin-top: 0;
     margin-bottom: 0;
-    background-color: #293063;
+    background-color: var(--PrimaryColor);
 
     border-left:30%;
-    border-color: #293063;
+    width:100%;
+    border-color: var(--PrimaryColor);
 }
 .heading {
     display: inline-block;
-    background-color: whitesmoke;
+    background-color: var(--white);
     text-align: center;
     font-weight: 900;
     font-size:1em; 
     
-    width:8%; 
+    width:10%; 
     height:100%;
+    color:var(--BlackText);
 }
 .heading1 {
     border-style: solid;
     border-left:.5em; 
     border-right:.5em; 
     display: inline-block;
-    background-color: whitesmoke;
+    background-color: var(--white);
     text-align: center;
     font-weight: 900;
     font-size:1em; 
@@ -249,6 +273,7 @@ h1 {
 #RecCenterSel {
     width:200px; 
     height:48px; 
+    color:var(--BlackText);
 }
 option {
     height: 48px;
@@ -257,31 +282,34 @@ option {
     width:200px; 
     height: 40px;
     cursor: pointer;
-    background-color: rgb(45, 94, 45);
+    background-color: var(--RunColor);
     margin:50px; 
     font-weight: 900;
     font-size: 1.5em;
-    color:white;
+    color:var(--TextColor);
     text-align: center;
+}
+#instructions:hover {
+    background-color: var(--RunColorHover);
 }
 .InstructionsModal {
     display: none;
     position: fixed;
     top:0; 
     left:0; 
-    background-color: rgba(0, 0, 0, 0.863);
-    color:white; 
+    background-color: var(--ModalBackground);
+    color:var(--TextColor); 
     width:100%; 
     height: 100%;
 }
 .SetupMain {
-    background-color: #293063;
+    background-color: var(--PrimaryColor);
 }
 
 .SetupMain p {
-    color:white; 
+    color:var(--TextColor); 
     padding:10px; 
-    background-color: #434fa3;
+    background-color: var(--SecondaryColor);
 }
 .SetupMain input {
     margin-left:20px; 
@@ -295,6 +323,14 @@ option {
 #ActChem {
     float:right; 
 }
+.ChemShowName {
+    width: 100%;
+    text-align: center;
+    background-color: var(--white);
+    padding-top:10px;
+    padding-bottom: 10px;
+    font-weight: 900;
+}
 #LapChem {
     float:left; 
 }
@@ -302,20 +338,38 @@ option {
     width:100%; 
 }
 #error {
-    color:white; 
+    color:var(--TextColor); 
 }
 .line1 {
-    background-color: #434fa3;
+    background-color: var(--SecondaryColor);
 }
 .ShowPoint {
-    background-color: white;
+    background-color: var(--white);
 }
 .ShowRowName {
+    padding-left: 20%;
     font-weight: 900;
+    color:var(--TextColor);
+}
+.line1 th {
+    color:var(--TextColor);
+    padding-top:2%;
+    padding-bottom:2%;
 }
 .RowPoint {
-    background-color: #293063;
+    background-color: var(--PrimaryColor);
 }
 .Blank {
     height: 20px;
+}
+#upload {
+    margin-left:40%;
+    width: 300px;
+    height:100%; 
+    color:var(--TextColor);
+    background-color: var(--RunColor);
+}
+#upload:hover {
+    cursor: pointer;
+    background-color: var(--RunColorHover);
 }

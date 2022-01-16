@@ -38,13 +38,15 @@
             <a href= "ChemCheck.html">Reload/Clear All</a>
         </li>
         <li class = "NavEle">
-            <button onclick="RunChem()" id = "SUBMITALL">Test</button> 
+            <button onclick="RunChem()" id = "SUBMITALL">SubmitDay</button> 
         </li>
     </ul>
     
     
 
-
+<div style = "width:100%; height:50px;">
+<button id = "upload" onclick = "UploadtoDigi()">UPLOAD TO DIGI!</button>
+</div>
     
     
 
@@ -121,10 +123,11 @@
     </ul>
 
 </ul>
-<div id ="errorholder" style ="background-color: red; width: 100%; text-align: center;">
+<div id ="errorholder" style ="background-color: var(--ErrorColor); width: 100%; text-align: center;">
 <p id = "error"></p>
 </div>
 <div class = "ChemShow" id = "ActChem">
+    <p class = "ChemShowName">Activity</p>
     <table id = "ActChemList">
         <tr class = "line1">
             <th>Time</th>
@@ -139,6 +142,7 @@
     </table>
 </div>
 <div class = "ChemShow" id = "LapChem">
+    <p class = "ChemShowName">Lap</p>
     <table id = "LapChemList">
         <tr class = "line1">
             <th>Time</th>

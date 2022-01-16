@@ -1,5 +1,7 @@
 
 from asyncio.windows_events import NULL
+from glob import glob
+from msilib.schema import File
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -8,13 +10,32 @@ import enum
 import eel
 from openpyxl import load_workbook
 import requests
+import os
 
 
 #GLOBALS 
-
-
-#is the program in a test state 
-Test = True
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+Armed = False 
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+#ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #is the program logged in? 
 LoggedIn = False
 #Whats the user name 
@@ -51,7 +72,10 @@ def SetRecCenter(RecCenterIn):
     global CurRecCenter
     CurRecCenter = RecCenterO(RecCenterIn)
     
-    
+@eel.expose
+def SetLoggedInFalse():
+    global LoggedIn
+    LoggedIn = False
 @eel.expose
 def SaveLogin(UsernameIn,PasswordIn):
     FiletoSave = open("input.txt", "w")
@@ -70,12 +94,15 @@ def SaveLoginA():
 
 #logins to program 
 def Login():
+    print("LogginIn")
     global Username
     global Password
+    global LoggedIn
     driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
     driver.find_element_by_id("user_email").send_keys(Username)
     driver.find_element_by_id("user_password").send_keys(Password)
-    driver.find_element_by_name("commit").click()
+    #driver.find_element_by_name("commit").click()
+    LoggedIn = True
     #driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
 
 #get the size of a file 
@@ -134,7 +161,8 @@ def StartPro():
     if BLoadLogin == False:
         eel.LoadSetupPage()
     elif BLoadLogin == True:
-        Login()
+        if LoggedIn == False:
+            Login()
 
 #enum for weekdays
 class Day(enum.Enum):
@@ -968,7 +996,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
         tnum+=1
         #my Test Stuff !! 
         #input("COntinue????")
-        #driver.find_element_by_class_name("btn btn-pink full-width").move_to_element()
 
 
 
@@ -981,8 +1008,8 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
         #DANGER
         #DANGER
         #DANGER
-
-        #driver.find_element_by_class_name("btn-pink").click()
+        if Armed == True:
+            driver.find_element_by_class_name("btn-pink").click()
         #DANGER
         #DANGER
         #DANGER
@@ -995,10 +1022,24 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
 CurWriteLineLap = 4 
 CurWriteLineAct = 4 
 @eel.expose
-def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, LapOAct):
+def UploadExcel():
+    driver.get("https://www.digiquatics.com/chemical_records/importer")
+    FileUpload = driver.find_element_by_id("file")
+    ExcelAdress = os.getcwd()
+    ExcelAdress += "/ChemicalRecordTemplate.xlsx"
+    print(ExcelAdress)
+    driver.find_element_by_id("file").send_keys(ExcelAdress)
+    if Armed == True:
+        driver.find_element_by_class_name("btn-pink").click()
+
+
+@eel.expose
+def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, DayofWeekIN,LapOAct):
     global CurWriteLineLap
     global CurWriteLineAct
     AllTimes = ["Open", "10:30", "12:30", "2:30", "4:30","Close"]
+    if DayofWeekIN == 5 or DayofWeekIN == 6: 
+        print("wow")
     xcelname = "ChemicalRecordTemplate.xlsx"
     wb = load_workbook(filename= xcelname)
     LapSheet = wb["Central Park Central P...-9181"]
@@ -1016,6 +1057,7 @@ def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, LapOAct):
             LapSheet["K" + str(CurWriteLineLap)] = TAIN[x]
             LapSheet["H" + str(CurWriteLineLap)] = TEMPIN[x]
             LapSheet["M" + str(CurWriteLineLap)] = ORPIN[x]
+            LapSheet["N" + str(CurWriteLineLap)] = "Initials: " + INITIALSIN[x]
             x+=1 
             CurWriteLineLap += 1
     elif LapOAct == 1:
@@ -1031,12 +1073,13 @@ def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, LapOAct):
             ActSheet["K" + str(CurWriteLineAct)] = TAIN[x]
             ActSheet["H" + str(CurWriteLineAct)] = TEMPIN[x]
             ActSheet["M" + str(CurWriteLineAct)] = ORPIN[x]
+            LapSheet["N" + str(CurWriteLineAct)] = "Initials: " + INITIALSIN[x]
             x+=1 
             CurWriteLineAct += 1
 
 
     wb.save(xcelname)
-    #print(sheet['A1'].value)    
+    
 
 #Sets up Chem page 
 @eel.expose
@@ -1101,6 +1144,8 @@ def SetupHome():
 
 #clear Xcel Sheet ! 
 def ClearXcel():
+    global CurWriteLineLap
+    global CurWriteLineAct
     xcelname = "ChemicalRecordTemplate.xlsx"
     wb = load_workbook(filename= xcelname)
     LapSheet = wb["Central Park Central P...-9181"]
@@ -1116,6 +1161,8 @@ def ClearXcel():
             y+=1
         x+=1
     wb.save(xcelname)
+    CurWriteLineLap =4
+    CurWriteLineAct= 4
 
   
 def main():
