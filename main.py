@@ -1,7 +1,4 @@
 
-from ast import Global
-from distutils.version import Version
-from turtle import update
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -26,10 +23,11 @@ Password = ""
 #open chrome 
 driver = webdriver.Chrome()
 
-CurrentVersion = 1.1 
+CurrentVersion = 1.1
 VersionIn = 0
 updatelogs = []
 DisplayedUpdate = False 
+
 #close Everything 
 @eel.expose
 def EndProgram():
@@ -121,7 +119,7 @@ class Day(enum.Enum):
 
 #ONE TIME takes DateIn(1/10/2022) DayofWeek(int = day of week 0 being monday ) LapIn(an array of all lap data) ActIn( an array of all Activitiy data )
 @eel.expose
-def OneTime(DateIn, DayofWeek, LapIn, ActIn):
+def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
     #loads Patron Page 
     driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
     #Sets Wday up Monday is a placeholder
@@ -965,37 +963,113 @@ def OneTime(DateIn, DayofWeek, LapIn, ActIn):
 
 
         driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
-CurWriteLine = 4 
+CurWriteLineLap = 4 
+CurWriteLineAct = 4 
 @eel.expose
-def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN):
-    global CurWriteLine; 
+def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, LapOAct):
+    global CurWriteLineLap
+    global CurWriteLineAct
     AllTimes = ["Open", "10:30", "12:30", "2:30", "4:30","Close"]
     xcelname = "ChemicalRecordTemplate.xlsx"
     wb = load_workbook(filename= xcelname)
     LapSheet = wb["Central Park Central P...-9181"]
     ActSheet = wb["Central Park Central P...-9191"]
-    x = 0
-    while x < 6:
-        LapSheet["A" + str(CurWriteLine)] = DateIN
-        LapSheet["B" + str(CurWriteLine)] = AllTimes[x]
-        LapSheet["C" + str(CurWriteLine)] = "Martin,Harrison"
-        LapSheet["F" + str(CurWriteLine)] = CLIN[x]
-        LapSheet["G" + str(CurWriteLine)] = PHIN[x]
-        LapSheet["F" + str(CurWriteLine)] = CLIN[x]
-        LapSheet["J" + str(CurWriteLine)] = "Clear"
-        LapSheet["K" + str(CurWriteLine)] = TAIN[x]
-        LapSheet["H" + str(CurWriteLine)] = TEMPIN[x]
-        LapSheet["M" + str(CurWriteLine)] = ORPIN[x]
-        x+=1 
-        CurWriteLine += 1
+    if LapOAct == 0:
+        x = 0
+        while x < 6:
+            LapSheet["A" + str(CurWriteLineLap)] = DateIN
+            LapSheet["B" + str(CurWriteLineLap)] = AllTimes[x]
+            LapSheet["C" + str(CurWriteLineLap)] = "Martin,Harrison"
+            LapSheet["F" + str(CurWriteLineLap)] = CLIN[x]
+            LapSheet["G" + str(CurWriteLineLap)] = PHIN[x]
+            LapSheet["F" + str(CurWriteLineLap)] = CLIN[x]
+            LapSheet["J" + str(CurWriteLineLap)] = "Clear"
+            LapSheet["K" + str(CurWriteLineLap)] = TAIN[x]
+            LapSheet["H" + str(CurWriteLineLap)] = TEMPIN[x]
+            LapSheet["M" + str(CurWriteLineLap)] = ORPIN[x]
+            x+=1 
+            CurWriteLineLap += 1
+    elif LapOAct == 1:
+        x = 0
+        while x < 6:
+            ActSheet["A" + str(CurWriteLineAct)] = DateIN
+            ActSheet["B" + str(CurWriteLineAct)] = AllTimes[x]
+            ActSheet["C" + str(CurWriteLineAct)] = "Martin,Harrison"
+            ActSheet["F" + str(CurWriteLineAct)] = CLIN[x]
+            ActSheet["G" + str(CurWriteLineAct)] = PHIN[x]
+            ActSheet["F" + str(CurWriteLineAct)] = CLIN[x]
+            ActSheet["J" + str(CurWriteLineAct)] = "Clear"
+            ActSheet["K" + str(CurWriteLineAct)] = TAIN[x]
+            ActSheet["H" + str(CurWriteLineAct)] = TEMPIN[x]
+            ActSheet["M" + str(CurWriteLineAct)] = ORPIN[x]
+            x+=1 
+            CurWriteLineAct += 1
+
+
     wb.save(xcelname)
     #print(sheet['A1'].value)    
 
-
+#Sets up Chem page 
+@eel.expose
 def SetupChem():
     print("settingup chems")
+    ClearXcel(); 
+#Sets up Patron page 
+@eel.expose
 def SetupPatron():
-    print("setting up patron")
+    print("setting up patron") 
+#Sets up Home page 
+@eel.expose
+def SetupHome():
+    #globals 
+    global VersionIn
+    global DisplayedUpdate
+    #get pastbin 
+    url = 'https://pastebin.com/raw/bB4wBAPP'
+    req = requests.get(url)
+    #open Version save file 
+    FileVersion = open("Version.txt" , "r")
+    #parse through pastebin
+    txin = 0
+    for line in FileVersion:
+        if(txin == 0):
+            CurrentVersion = float(line)
+        txin += 1 
+    #save File (not really should only be read)
+    FileVersion.close()
+    #Split into Lines
+    Lines = req.text.split("\n")
+    #Setup Vars
+    cur = 0 
+    for x in Lines: 
+        if cur == 0: 
+            VersionIn = float(x)
+        elif DisplayedUpdate == False:
+            updatelogs.append(str(x))
+        cur +=1
+    # if the version is less than what it is 
+    if CurrentVersion < VersionIn:
+        #add the text on Home Page
+        eel.AddModal(VersionIn,updatelogs)
+        DisplayedUpdate = True
+    
+    #get Current Changes 
+    Fileupdatelogs = open("update" + str(CurrentVersion) + ".txt")
+    tcur =0 
+    UpdateLogupdatelogs = []
+    #Parase File update logs and set up vars 
+    for y in Fileupdatelogs: 
+        if tcur == 0: 
+            UpdateLogVersionIn = float(y)
+        else:
+            
+            UpdateLogupdatelogs.append(str(y))
+            
+        tcur +=1
+    eel.SetUpdateLogs(UpdateLogVersionIn, UpdateLogupdatelogs); 
+    
+    StartPro()
+
 #clear Xcel Sheet ! 
 def ClearXcel():
     xcelname = "ChemicalRecordTemplate.xlsx"
@@ -1013,37 +1087,8 @@ def ClearXcel():
             y+=1
         x+=1
     wb.save(xcelname)
-@eel.expose         
-def home():
-    global VersionIn
-    global DisplayedUpdate
-    url = 'https://pastebin.com/raw/bB4wBAPP'
-    req = requests.get(url)
-    FileVersion = open("Version.txt" , "r")
-    txin = 0
-    for line in FileVersion:
-        if(txin == 0):
-            CurrentVersion = float(line)
-        txin += 1 
-    FileVersion.close()
 
-    Lines = req.text.split("\n")
-    cur = 0 
-    for x in Lines: 
-        if cur == 0: 
-            VersionIn = float(x)
-        elif DisplayedUpdate == False:
-            updatelogs.append(str(x))
-            
-        cur +=1
-    print(updatelogs)
-    if CurrentVersion < VersionIn:
-        eel.AddModal(VersionIn,updatelogs)
-        DisplayedUpdate = True
-    
-
-    
-    
+  
 def main():
     #goes to folder Website and launcher main.html 
     

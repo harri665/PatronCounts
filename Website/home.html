@@ -2,11 +2,24 @@
 <html>
     <script type="text/javascript" src="/eel.js"></script>
     <script src = "home.js"></script>
+    <link rel="stylesheet" href="stylesheet.css">
 <head> 
     <title>Home  </title>
-</head>
+</head> 
 <body onload = "Setup()">
-    <a href = "PatronCheck.html">PatronCheck</a>
-    <a href = "ChemCheck.html">ChemCheck</a>
+    <ul class = "NavBar">
+        <li class = "NavEle">
+            <a href = "PatronCheck.html">PatronCheck</a>
+        </li>
+        <li class = "NavEle">
+            <a href = "ChemCheck.html">ChemCheck</a>
+        </li>
+        <li class = "NavEle">
+            <a href = "seetup.html">Setup</a>
+        </li>
+        
+        
+    </ul>
+    <button onclick = "CallAddModalOver()" id = "UpdateLog">Update Log</button>
 </body>
 </html>

@@ -1,46 +1,31 @@
 <!DOCTYPE html>
 <script type="text/javascript" src="/eel.js"></script>
 <script src = "CheckChem.js"></script>
+<link rel="stylesheet" href="stylesheet.css">
 <html>
-    <style>
-        p {
-            float:left; 
-            display: block;
-            size:3em; 
-        }
-        ul {
-            display:block; 
-            float:left; 
-            width:100%; 
-        }
-        input {
-            width:3em;  
-        }
 
-        .heading {
-            padding-left:.5em; 
-            padding-right:1.2em;
-        }
-        .row {
-            margin:0; 
-        }
-        .row1  {
-            padding-left:5em; 
-            margin:0; 
-        }
-    </style>
 <head> 
     <title>ChemCheck (Digiquatics v2)  </title>
 </head>
-<body onload="main()">
-    <a href = "home.html">HOME</a>
+<body onload="Setup()">
+    <ul class = "NavBar">
+        <li class = "NavEle">
+            <a href = "home.html">HOME</a>
+        </li>
+        <li style="color:red; " class = "NavEle" >
+            <button type = "button" onclick="CloseProgram()">End/Close</button>
+        </li>
+        <li class = "NavEle">
+            <a href = "seetup.html">Setup</a> 
+        </li>
+    </ul>
     <button onclick="RunChem()">Test</button>   
     <input type = "date" style = "width:10%; " id = "Date">
     <form>
         <label>Lap</label>
-        <input type = "radio" id = "Lapinput" value = "LapSel">
+        <input type = "radio" id = "Lapinput" name ="pool" value = "LapSel" onclick="SelLap()">
         <label>Act</label>
-        <input type = "radio" id = "Actinput" value = "ActSel">
+        <input type = "radio" id = "Actinput" name = "pool" value = "ActSel" onclick="SelAct()">
     </form>
 <li>
     <ul class = "row1">
