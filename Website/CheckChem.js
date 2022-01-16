@@ -24,20 +24,22 @@ function Setup() {
     eel.SetupChem(); 
 }
 function RunChem()  {
-    
+    DayofWeek = new Date(document.getElementById("Date").value).getDay();
     TDate = document.getElementById("Date").value; 
     KDate = String(TDate);
     Submit(); 
-    ClearALL();
+    
     if(RadioValue == 3) {
         ReportError("Select Activity or Lap")
+        return; 
     } else if (KDate ==""){
         ReportError("Please Enter Date")
+        return; 
     } else {
         RemoveError(); 
         AddLines(); 
-        eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate, RadioValue);
-
+        eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate, DayofWeek,RadioValue);
+        ClearALL();
 
     }
      
@@ -63,7 +65,7 @@ function Submit() {
                 if(Cat == "INITIALS") {
                     eval(Cat).push("n/a"); 
                 } else {
-                    eval(Cat).push(0); 
+                    eval(Cat).push(""); 
                 }
             } else {
                 eval(Cat).push(document.getElementById(Cat + String(x+1)).value); 
@@ -132,4 +134,8 @@ function AddLines() {
 
 
 
+}
+
+function UploadtoDigi() {
+    eel.UploadExcel(); 
 }
