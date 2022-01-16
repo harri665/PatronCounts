@@ -1,8 +1,23 @@
 function Setup() {
+    
     eel.SetupHome();
 }
+function test() {
 
-
+    //console.log(document.getElementById("RecCenterSel").value); 
+    //document.getElementById("RecCenterSel").value = "Carla"; 
+}
+eel.expose(LoadRecCenter); 
+function LoadRecCenter(RecIn) {
+    document.getElementById("RecCenterSel").value = RecIn;
+}
+function ClickSelect() {
+    TRecCenter = ""; 
+    TRecCenter =document.getElementById("RecCenterSel").value; 
+    eel.SetRecCenter(TRecCenter) 
+    console.log("Slect clicked");
+    eel.SaveLoginA(); 
+}
 UpdateLogVers = 0;  
 UpdateLogLogs = []; 
 eel.expose(AddModal); 
@@ -82,6 +97,13 @@ function AddModalOnTop(NewVers, UpdateLogs) {
     
 
 }
+function OpenInstruction() {
+    document.getElementById("InstructionsModal").style.display = "block"; 
+
+}
+function CloseInstModal() {
+    document.getElementById("InstructionsModal").style.display = "none"; 
+}
 function CloseModal() {
     document.getElementById("ModalOver").remove(); 
 }
@@ -96,4 +118,8 @@ function SetUpdateLogs(VersionIn, UpdateLogs) {
 eel.expose(LoadSetupPage)
 function LoadSetupPage() {
     window.location = "seetup.html"
+}
+
+function DisplayInstruction() {
+
 }

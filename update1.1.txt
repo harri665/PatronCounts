@@ -1,13 +1,3 @@
-1.3
-#Update Title 
-FIXED - EEL having error causing it to not work properly 
-FIXED - an issue where switching pages in the gui causes program crash
-FIXED - an issue where the update was slow and didnt update properly 
-FIXED - Issue Where program wasnt "Armed" 
-FIXED - Setup Screen only being shown in Patron Counts and not Home
-FIXED - Save on Setup.html not sending you back to home.html
-FIXED - Back button on Setup sending you to patron counts now sends you to home 
-FIXED - link on update modal not working 
-
-ADDED - Current Change logs Load 
-ADDED - Update Model 
+1.1
+Initial Verison 
+I dont remember what i did but this is here 

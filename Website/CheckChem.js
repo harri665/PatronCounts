@@ -1,4 +1,4 @@
-Date = "1/10/2022";
+KDate = "1/10/2022";
 DayofWeek = 0;
 CL = [];
 ORP = []; 
@@ -8,17 +8,39 @@ FLOW = [];
 TEMP = []; 
 INITIALS = []; 
 RadioValue = 3; 
+AllTimes = ["Open", "10:30", "12:30", "2:30", "4:30","Close"]
+function ReportError(tin) {
+    const ErrorText = document.createTextNode(tin); 
+    document.getElementById("error").appendChild(ErrorText);  
+}
+function RemoveError() {
+    //errorholder
+    document.getElementById("error").remove(); 
+    const tempp = document.createElement("p");
+    tempp.id = "error"
+    document.getElementById("errorholder").appendChild(tempp); 
+}
 function Setup() {
     eel.SetupChem(); 
 }
 function RunChem()  {
-    Submit(); 
+    
     TDate = document.getElementById("Date").value; 
+    KDate = String(TDate);
+    Submit(); 
+    ClearALL();
     if(RadioValue == 3) {
-        console.log("select lap or act"); 
+        ReportError("Select Activity or Lap")
+    } else if (KDate ==""){
+        ReportError("Please Enter Date")
     } else {
+        RemoveError(); 
+        AddLines(); 
         eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate, RadioValue);
+
+
     }
+     
     
 }
 function ClickLap() {
@@ -51,10 +73,63 @@ function Submit() {
         console.log(Cat); 
     }
     
+    
 }
 function SelLap() {
     RadioValue =0
 }
 function SelAct() {
     RadioValue =1 
+}
+function ClearALL() {
+    //document.getElementById("Date").value = ""
+    
+    allelements = document.getElementsByTagName("input"); 
+    for(let x = 0; x< allelements.length; x++) {
+        if(allelements[x].type == "text") {
+            allelements[x].value = ""; 
+        }
+    }
+}
+
+function AddLines() {
+    console.log("itWorked")
+    laporchem = "none"; 
+    if(RadioValue ==0) {
+        laporchem = "LapChemList"
+    } else if (RadioValue == 1) {
+        laporchem = "ActChemList"
+    }
+    const BaseELe = document.getElementById(laporchem)
+    const Row = document.createElement("tr");
+    Row.classList.add("Blank")
+    BaseELe.appendChild(Row); 
+
+    const Entry = document.createElement("th");
+    Entry.classList.add("ShowPoint")
+    const EntryName = document.createTextNode(KDate); 
+    Entry.appendChild(EntryName); 
+    Row.appendChild(Entry); 
+
+    for(let l =0; l < 5; l++) {
+        const Row = document.createElement("tr"); 
+        Row.classList.add("RowPoint")
+        const RowName = document.createElement("label")
+        RowName.classList.add("ShowRowName")
+        RowName.appendChild(document.createTextNode(AllTimes[l]))
+        Row.appendChild(RowName);
+        BaseELe.appendChild(Row); 
+        for(let i =0; i<7; i++) {
+            const Entry = document.createElement("th");
+            Entry.classList.add("ShowPoint")
+            entryval = String(eval(categories[i])[l])
+            const EntryName = document.createTextNode(entryval); 
+            Entry.appendChild(EntryName); 
+            Row.appendChild(Entry); 
+            
+        }
+    }
+
+
+
 }

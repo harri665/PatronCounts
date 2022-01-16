@@ -1,4 +1,5 @@
 
+from asyncio.windows_events import NULL
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -28,6 +29,13 @@ VersionIn = 0
 updatelogs = []
 DisplayedUpdate = False 
 
+class RecCenterO(enum.Enum):   
+    none = "none"
+    Carla = "Carla"
+    Central = "Central"
+
+CurRecCenter = RecCenterO.none
+
 #close Everything 
 @eel.expose
 def EndProgram():
@@ -39,12 +47,26 @@ def close_callback(route, websockets):
 
 #saves login to file
 @eel.expose
-def SaveLogin(Username,Password):
+def SetRecCenter(RecCenterIn):
+    global CurRecCenter
+    CurRecCenter = RecCenterO(RecCenterIn)
+    
+    
+@eel.expose
+def SaveLogin(UsernameIn,PasswordIn):
     FiletoSave = open("input.txt", "w")
-    FiletoSave.write(Username)
-    FiletoSave.write("\n")
-    FiletoSave.write(Password)
+    FiletoSave.write(UsernameIn.removesuffix("\n") +"\n")
+    
+    FiletoSave.write(PasswordIn.removesuffix("\n") + "\n")
+    
+    print(CurRecCenter.value)
+    FiletoSave.write(CurRecCenter.value)
     FiletoSave.close()
+    print("saved")
+@eel.expose
+def SaveLoginA():
+    SaveLogin(Username.removesuffix("\n"),Password.removesuffix("\n"))
+
 
 #logins to program 
 def Login():
@@ -71,12 +93,13 @@ def LoadLogin():
     global Username
     global Password
     global LoggedIn
+    global CurRecCenter
     #open file "input.txt" for reading 
     FileInputIn = open("input.txt", "r")
     #check file size and setup size 
     size = GetFileSize(FileInputIn)
     #if there are the correct number of vars store them in correct vars 
-    if size == 2:
+    if size == 2 or size ==3:
         tx = 0
         FileInputIn = open("input.txt", "r")
         for line in FileInputIn:
@@ -84,6 +107,12 @@ def LoadLogin():
                 Username = line
             if tx == 1:
                 Password = line
+            if tx ==2:
+                if line == NULL or line == "":
+                    print("error")
+                else:
+                    CurRecCenter = RecCenterO(line)
+                    eel.LoadRecCenter(str(line))
             tx+=1
 
         return(True)
