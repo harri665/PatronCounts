@@ -19,16 +19,38 @@
             <a href = "seetup.html">Setup</a> 
         </li>
     </ul>
-    <button onclick="RunChem()">Test</button>   
-    <input type = "date" style = "width:10%; " id = "Date">
-    <form>
-        <label>Lap</label>
-        <input type = "radio" id = "Lapinput" name ="pool" value = "LapSel" onclick="SelLap()">
-        <label>Act</label>
-        <input type = "radio" id = "Actinput" name = "pool" value = "ActSel" onclick="SelAct()">
-    </form>
-<li>
-    <ul class = "row1">
+    <ul class = "ChemSetup">
+        <li class = "NavEle">
+            <input type = "date" id = "Date"> 
+        </li>
+        <li class = "NavEle">
+            <label>Lap</label>
+            <input type = "radio" id = "Lapinput" name ="pool" value = "LapSel" onclick="SelLap()" class = "radio">
+        </li>
+        <li class = "NavEle">
+            <label>Act</label>
+            <input type = "radio" id = "Actinput" name = "pool" value = "ActSel" onclick="SelAct()" class = "radio">
+        </li>
+        <li class = "NavEle">
+            <button onclick="ClearALL()">Clear</button>
+        </li>
+        <li class = "NavEle">
+            <a href= "ChemCheck.html">Reload/Clear All</a>
+        </li>
+        <li class = "NavEle">
+            <button onclick="RunChem()" id = "SUBMITALL">Test</button> 
+        </li>
+    </ul>
+    
+    
+
+
+    
+    
+
+<ul class = "ChemIn">
+    <ul class = "row">
+        <label>Name</label>
         <p class = "heading">CL</p>
         <p class = "heading">ORP</p>
         <p class = "heading">PH</p>
@@ -39,66 +61,97 @@
     </ul>
     <ul class = "row">
         <label>Open</label>
-        <input id = "CL1">
-        <input id = "ORP1">
-        <input id = "PH1">
-        <input id = "TA1">
-        <input id = "FLOW1">
-        <input id = "TEMP1">
-        <input id = "INITIALS1">
+        <input id = "CL1" placeholder="CL">
+        <input id = "ORP1" placeholder="ORP">
+        <input id = "PH1" placeholder="PH">
+        <input id = "TA1" placeholder="TA">
+        <input id = "FLOW1" placeholder="FLOW">
+        <input id = "TEMP1" placeholder="TEMP">
+        <input id = "INITIALS1" placeholder="INITIALS">
     </ul>
     <ul class = "row">
         <label>10:30</label>
-        <input id = "CL2">
-        <input id = "ORP2">
-        <input id = "PH2">
-        <input id = "TA2">
-        <input id = "FLOW2">
-        <input id = "TEMP2">
-        <input id = "INITIALS2">
+        <input id = "CL2" placeholder="CL">
+        <input id = "ORP2" placeholder="ORP">
+        <input id = "PH2" placeholder="PH">
+        <input id = "TA2" placeholder="TA">
+        <input id = "FLOW2" placeholder="FLOW">
+        <input id = "TEMP2" placeholder="TEMP">
+        <input id = "INITIALS2" placeholder="INITIALS">
     </ul>
     <ul class = "row">
         <label>12:30</label>
-        <input id = "CL3">
-        <input id = "ORP3">
-        <input id = "PH3">
-        <input id = "TA3">
-        <input id = "FLOW3">
-        <input id = "TEMP3">
-        <input id = "INITIALS3">
+        <input id = "CL3" placeholder="CL">
+        <input id = "ORP3" placeholder="ORP">
+        <input id = "PH3" placeholder="PH">
+        <input id = "TA3" placeholder="TA">
+        <input id = "FLOW3" placeholder="FLOW">
+        <input id = "TEMP3" placeholder="TEMP">
+        <input id = "INITIALS3" placeholder="INITIALS">
     </ul>
     <ul class = "row">
-        <label>_2:30 </label>
-        <input id = "CL4">
-        <input id = "ORP4">
-        <input id = "PH4">
-        <input id = "TA4">
-        <input id = "FLOW4">
-        <input id = "TEMP4">
-        <input id = "INITIALS4">
+        <label>2:30 </label>
+        <input id = "CL4" placeholder="CL">
+        <input id = "ORP4" placeholder="ORP">
+        <input id = "PH4" placeholder="PH">
+        <input id = "TA4" placeholder="TA">
+        <input id = "FLOW4" placeholder="FLOW">
+        <input id = "TEMP4" placeholder="TEMP">
+        <input id = "INITIALS4" placeholder="INITIALS">
     </ul>
     <ul class = "row">
-        <label>_4:30 </label>
-        <input id = "CL5">
-        <input id = "ORP5">
-        <input id = "PH5">
-        <input id = "TA5">
-        <input id = "FLOW5">
-        <input id = "TEMP5">
-        <input id = "INITIALS5">
+        <label>4:30 </label>
+        <input id = "CL5" placeholder="CL">
+        <input id = "ORP5" placeholder="ORP">
+        <input id = "PH5" placeholder="PH">
+        <input id = "TA5" placeholder="TA">
+        <input id = "FLOW5" placeholder="FLOW">
+        <input id = "TEMP5" placeholder="TEMP">
+        <input id = "INITIALS5" placeholder="INITIALS">
     </ul>
     <ul class = "row">
         <label>Close </label>
-        <input id = "CL6">
-        <input id = "ORP6">
-        <input id = "PH6">
-        <input id = "TA6">
-        <input id = "FLOW6">
-        <input id = "TEMP6">
-        <input id = "INITIALS6">
+        <input id = "CL6" placeholder="CL">
+        <input id = "ORP6" placeholder="ORP">
+        <input id = "PH6" placeholder="PH">
+        <input id = "TA6" placeholder="TA">
+        <input id = "FLOW6" placeholder="FLOW">
+        <input id = "TEMP6" placeholder="TEMP">
+        <input id = "INITIALS6" placeholder="INITIALS">
     </ul>
 
-</li>
+</ul>
+<div id ="errorholder" style ="background-color: red; width: 100%; text-align: center;">
+<p id = "error"></p>
+</div>
+<div class = "ChemShow" id = "ActChem">
+    <table id = "ActChemList">
+        <tr class = "line1">
+            <th>Time</th>
+            <th>CL</th>
+            <th>ORP</th>
+            <th>PH</th>
+            <th>TA</th>
+            <th>FLOW</th>
+            <th>TEMP</th>
+            <th>Initials</th>
+        </tr>
+    </table>
+</div>
+<div class = "ChemShow" id = "LapChem">
+    <table id = "LapChemList">
+        <tr class = "line1">
+            <th>Time</th>
+            <th>CL</th>
+            <th>ORP</th>
+            <th>PH</th>
+            <th>TA</th>
+            <th>FLOW</th>
+            <th>TEMP</th>
+            <th>Initials</th>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
 

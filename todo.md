@@ -23,21 +23,12 @@
 
 # small 
 - Change Opening and closing to approperate times 
-- make radios work correctly (switch from lap to activity and vice versa )
-- add update notes in HOME.html ( make it popup )
-- Fix Save on Setup.html to send you back to home 
-- Add Setup button to home
-- 
+
 
 # big 
 
 - Make it look nice 
 - Import big xcel file after written to 
-- add code to support activity in chems 
-- add consistent buttons (for top bar)
-- make the home page not look like 1900s 
-- clean up code 
-- add comments 
 - make a way to detect login failure 
 
 
