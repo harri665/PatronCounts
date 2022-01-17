@@ -1,4 +1,7 @@
 
+from asyncio.windows_events import NULL
+from glob import glob
+from msilib.schema import File
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -21,7 +24,7 @@ import os
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
-Armed = False 
+Armed = True 
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
