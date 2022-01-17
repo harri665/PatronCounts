@@ -27,7 +27,7 @@
 - Command to Run 
   - pyinstaller --noconfirm --onedir --windowed --icon "C:/Users/Harri/Downloads/Logomark.ico" --name "DigiquaticsV2" --version-file "C:/Users/Harri/OneDrive/Projects/PatronCounts/file_version_info.txt" --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/ChemicalRecordTemplate.xlsx;." --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/input.txt;." --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/update1.1.txt;." --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/update1.2.txt;." --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/update1.3.txt;." --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/Version.txt;." --add-data "C:/Users/Harri/OneDrive/Projects/PatronCounts/Website;Website/" --add-data "C:/Users/Harri/AppData/Local/Programs/Python/Python310/chromedriver.exe;." --add-data "C:/Users/Harri/AppData/Local/Programs/Python/Python310/geckodriver.exe;." --add-data "C:/Users/Harri/AppData/Local/Programs/Python/Python310/IEDriverServer.exe;."  "C:/Users/Harri/OneDrive/Projects/PatronCounts/main.py"
 
-git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch C:\Users\Harri\OneDrive\Projects\PatronCounts\input.txt" HEAD
+
 # small 
 - Change Opening and closing to approperate times 
 
