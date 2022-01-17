@@ -58,6 +58,9 @@ function AddModal(NewVers, UpdateLogs) {
 
 }
 
+function ReportBug() {
+    eel.ReportBug();
+}
 function AddModalOnTop(NewVers, UpdateLogs) {
     console.log(NewVers);
     console.log(UpdateLogs);

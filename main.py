@@ -24,7 +24,7 @@ import os
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
-Armed = True 
+Armed = False
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
@@ -1164,6 +1164,9 @@ def ClearXcel():
     CurWriteLineLap =4
     CurWriteLineAct= 4
 
+@eel.expose
+def ReportBug():
+    driver.get("https://github.com/harri665/PatronCountsDist/issues")
   
 def main():
     #goes to folder Website and launcher main.html 

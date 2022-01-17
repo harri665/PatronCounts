@@ -1,0 +1,4 @@
+1.4
+#Update Name 
+FIXED - issue where if too many logs there would be no scroll 
+ADDED - Report Bug button on home page 
