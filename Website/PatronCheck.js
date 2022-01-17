@@ -19,6 +19,7 @@ function LoadMainPage() {
 eel.expose(LoadMainPage)
 
 function Setup() { 
+    console.log("Working on Patron");
     eel.SetupPatron(); 
 }
 function RunProgram() {
