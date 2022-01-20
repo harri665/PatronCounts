@@ -4,4 +4,6 @@ function Save() {
     window.location = "home.html"
 }
 
- 
+function Setup() {
+    eel.SetupSetup()
+}

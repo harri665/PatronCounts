@@ -24,6 +24,7 @@ function Setup() {
     eel.SetupChem(); 
 }
 function RunChem()  {
+    
     DayofWeek = new Date(document.getElementById("Date").value).getDay();
     TDate = document.getElementById("Date").value; 
     KDate = String(TDate);
@@ -36,6 +37,7 @@ function RunChem()  {
         ReportError("Please Enter Date")
         return; 
     } else {
+        addPause("Running")
         RemoveError(); 
         AddLines(); 
         eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate, DayofWeek,RadioValue);
@@ -137,5 +139,12 @@ function AddLines() {
 }
 
 function UploadtoDigi() {
+    addPause("Uploading!")
     eel.UploadExcel(); 
+}
+function ReloadClear() {
+    
+    //window.location = "ChemCheck.html";
+    addPause("Clearing");
+    eel.ReloadClearChem(); 
 }

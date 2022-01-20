@@ -28,7 +28,7 @@ function AddModal(NewVers, UpdateLogs) {
     const Modal = document.createElement("div"); 
     Modal.classList.add("Modal");
     const Version = document.createElement("h1");
-    const VersionText = document.createTextNode("NEW VERSION AVAILABLE !!! Version: " + NewVers + " is available at")
+    const VersionText = document.createTextNode("UPDATE: Version: " + NewVers + " is available at")
     const Linka = document.createElement("a"); 
     const LinkText = document.createTextNode("https://github.com/harri665/PatronCountsDist");
     Linka.href = "https://github.com/harri665/PatronCountsDist"
@@ -61,6 +61,7 @@ function AddModal(NewVers, UpdateLogs) {
 function ReportBug() {
     eel.ReportBug();
 }
+
 function AddModalOnTop(NewVers, UpdateLogs) {
     console.log(NewVers);
     console.log(UpdateLogs);
@@ -75,6 +76,7 @@ function AddModalOnTop(NewVers, UpdateLogs) {
     Version.appendChild(VersionText); 
     const UpdateName = document.createElement("p"); 
     const UpdateNameText = document.createTextNode(UpdateLogs[0]); 
+    UpdateName.style.fontSize = "5em"; 
     UpdateName.appendChild(UpdateNameText); 
     const ListofUpdate = document.createElement("ul")
     const CloseButton = document.createElement("button"); 
@@ -125,4 +127,42 @@ function LoadSetupPage() {
 
 function DisplayInstruction() {
 
+}
+
+function Test() {
+    AddDisplay("Finished", "patronCount complete !")
+}
+eel.expose(Issues)
+function Issues(Issuesin) {
+    const main = document.getElementById("KnownIssues");
+
+    curbox = 0; 
+    for(let x =1; x < Issuesin.length; x++) {
+        
+        if(String(Issuesin[x]).search("HEAD") != -1 ) {
+            curbox +=1 
+            tstring = String(Issuesin[x]).replace("HEAD",""); 
+            console.log(tstring)
+
+            
+            const h1 = document.createElement("h1");
+            const h1text = document.createTextNode(tstring);
+            const ul = document.createElement("ul");
+            h1.appendChild(h1text);
+            main.appendChild(h1);
+            main.appendChild(ul); 
+            ul.id = "issuesul" + String(curbox); 
+
+            
+        } else {
+            const issueli = document.createElement("li"); 
+            const p = document.createElement("p"); 
+            const ptext = document.createTextNode(Issuesin[x])
+            p.appendChild(ptext); 
+            issueli.appendChild(p);
+            const currentul = document.getElementById("issuesul" + String(curbox))
+            currentul.appendChild(issueli); 
+
+        }
+    }
 }

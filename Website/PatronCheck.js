@@ -21,8 +21,12 @@ eel.expose(LoadMainPage)
 function Setup() { 
     console.log("Working on Patron");
     eel.SetupPatron(); 
+    
 }
+
 function RunProgram() {
+    
+    
     var DateIn =  document.getElementById("date").value; 
     var DayofWekk = new Date(DateIn).getDay(); 
     //console.log(document.getElementById("date").value); 
@@ -111,6 +115,7 @@ function CreateInputs(LapIn, ActIn) {
             const TimeField = document.createElement("label"); 
             TimeField.classList.add("PatronInputText"); 
             const Timefill = document.createTextNode(Times[x]); 
+            InputField.placeholder = String(Times[x])
             TimeField.appendChild(Timefill); 
             OverALLUL.appendChild(TimeField);
             OverALLUL.appendChild(InputField);
@@ -159,6 +164,7 @@ function CreateInputs(LapIn, ActIn) {
             TimeField.classList.add("PatronInputText"); 
             TimeField.style = ""; 
             const Timefill = document.createTextNode(Times[x]); 
+            InputField.placeholder = String(Times[x])
             TimeField.appendChild(Timefill); 
             OverALLUL.appendChild(TimeField);
             OverALLUL.appendChild(InputField);
@@ -193,6 +199,7 @@ function CreateSingleInput() {
 
 
 function SubmitALL() {
+    addPause("Running")
     //AllValsAct.length = 0; 
     //AllValsLap.length = 0; 
     var AllValsLap = []; 

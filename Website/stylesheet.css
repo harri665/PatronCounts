@@ -8,7 +8,8 @@
     --RunColor:green; 
     --RunColorHover:darkgreen; 
     --ModalBackground:rgba(0, 0, 0, 0.863); 
-    --FocusColor:rgba(0, 255, 0, 0.377); 
+    --FocusColor: rgb(130, 240, 255);
+    /*rgba(0, 255, 0, 0.377); */
     --CloseColor: darkred; 
     --CloseColorHover:rgb(59, 0, 0);
     --BlackText:black; 
@@ -17,6 +18,7 @@
   }
 
 body {
+    
     background-color: var(--background);
     font-family: roboto,sans-serif;
     margin:0; 
@@ -61,7 +63,6 @@ input:focus{
 }
 .Overall {
     background-color: var(--PrimaryColor);
-    border: 2px solid rgb(0, 68, 85);
     padding:0; 
     width:100%; 
 }
@@ -103,7 +104,7 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
 }
-li button {
+.NavEle button {
     color:var(--TextColor); 
     font-weight: 1000;
     border: none;
@@ -145,6 +146,9 @@ li button {
     color: var(--TextColor);
     background-color: var(--ModalBackground);
     padding: 10px; 
+}
+.Modal a {
+    color:blue; 
 }
 h1 {
     font-size: auto;
@@ -197,51 +201,83 @@ h1 {
     background-color: var(--RunColorHover);
 }
 .ChemIn {
-    width: 100%;
-    padding: 0;
-}
-.ChemIn input{
     
-    background-color: var(--white);
-    padding:0; 
+    
+}
+#mainChemIn {
+    width:100%; 
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+.ChemIn p {
+    padding: 0;
+    margin: 0;
     border:0; 
-    width:10%; 
-    height:100%; 
-    
-
-
-}
-.ChemIn input:focus{
-    background-color: var(--FocusColor);
-}
-.row input {
-    color:var(--BlackText);
-    font-weight: 900;
-}
-.row label {
-    display: inline-block;
-    padding: 0;
-    font-weight: 900;
-    width: 20%;
-    margin:0; 
-    text-align: center;
     background-color: var(--SecondaryColor);
-    color:var(--TextColor);
-    
-    
+    font-size: 1.2em;
     
 }
-.row {
-    
-    
-    margin-top: 0;
-    margin-bottom: 0;
+.ChemIn ul {
+    list-style: none;
+    float:left; 
+    width:11%; 
+    display: block;
+    padding: 0;
+    margin: 0;
+    border:0; 
     background-color: var(--PrimaryColor);
-
-    border-left:30%;
-    width:100%;
-    border-color: var(--PrimaryColor);
 }
+.ChemIn li {
+    width: 100%;
+    
+    border:0; 
+    
+    border-style: solid;
+    border-color: black
+
+    
+}
+#LableCol {
+    padding: 0;
+    border: 0;
+    margin: 0;
+    width:20%; 
+}
+#LableCol p{
+    text-align: center;
+    border:00px;
+    border-style: solid;
+    padding:2%;
+    font-weight: 900;
+    font-size: .8em;
+    color:var(--TextColor)
+}
+
+.ChemIn input {
+     
+    font-size:.8em;
+    font-weight: 900;
+    width: 100%;
+    
+    padding: 0;
+    margin-top: 4%;
+    margin-left:4%;
+    padding-top:3%;
+    
+    border:0px; 
+    display:block; 
+    color:var(--BlackText); 
+    
+}
+.Name p{
+    text-align: center;
+    font-weight: 900;
+    padding-bottom: 10px;
+}
+#Name {
+    
+}
+
 .heading {
     display: inline-block;
     background-color: var(--white);
@@ -373,4 +409,123 @@ option {
 #upload:hover {
     cursor: pointer;
     background-color: var(--RunColorHover);
+}
+
+.cover {
+    width :100%; 
+    height: 100%; 
+    position:fixed;
+    z-index: 100;
+    top:0; 
+    left:0;             
+    display: block; 
+    background-color: var(--ModalBackground);
+}
+
+.PuaseCover {
+    width :100%; 
+    height: 100%; 
+    position:fixed;
+    z-index: 100;
+    top:0; 
+    left:0;             
+    display: block; 
+    background-color: var(--ModalBackground);
+}
+
+#Loading {
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    color:var(--white);
+    font-size: 5em; 
+    text-align: center;
+    line-height: 100%;
+    font-weight: 900;
+}
+#PauseText {
+    background-color: transparent;
+    width: 100%;
+    height: 100%;
+    color:var(--white);
+    font-size: 5em; 
+    text-align: center;
+    line-height: 100%;
+    font-weight: 900; 
+}
+
+.AddDisplay {
+    width: 100%; 
+    height: 100%;
+    position: fixed;
+    display: block;
+    top:0;
+    left:0; 
+    background-color: var(--ModalBackground);
+    
+}
+.AddDisplay h1 {
+    color:var(--white);
+    font-size: 5em;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+}
+.AddDisplay p {
+    color: var(--white);
+    font-size: 3em; 
+    width: 100%;
+    text-align: center;
+}
+.AddDisplay button {
+    background-color: var(--CloseColor);
+    width: 300px;
+    height: 100px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    color: var(--white);
+    font-weight: 900;
+    font-size: 3em;
+
+}
+.AddDisplay button:hover {
+    background-color: var(--CloseColorHover);
+}
+.KnownIssues {
+    color:var(--white);
+    width:50%; 
+    
+
+}
+.KnownIssues h1{
+    background-color: var(--SecondaryColor);
+    padding-left:3%; 
+    margin: 0;
+    margin-top:4%;
+
+}
+.KnownIssues ul {
+    background-color: var(--PrimaryColor);
+    margin: 0;
+}
+.KnownIssues p {
+
+    margin: 0;
+}
+#Bug {
+    border:0; 
+    padding:10px; 
+    margin:0; 
+    background-color: var(--RunColor);
+    color: var(--TextColor);
+    font-weight: 900;
+}
+
+#Bug:hover {
+    background-color: var(--RunColorHover);
+    cursor: pointer;
 }

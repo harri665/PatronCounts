@@ -36,6 +36,7 @@ Armed = False
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
 #ARMING !!!! WILL MAKE IT WORK !!!!!!#DANGER DANGER DANGER DANGER
+
 #is the program logged in? 
 LoggedIn = False
 #Whats the user name 
@@ -49,13 +50,21 @@ CurrentVersion = 1.1
 VersionIn = 0
 updatelogs = []
 DisplayedUpdate = False 
-
+ChemsjustCleared = False
+UpdateIssues = []
 class RecCenterO(enum.Enum):   
     none = "none"
     Carla = "Carla"
     Central = "Central"
 
 CurRecCenter = RecCenterO.none
+
+def ClearPause():
+    time.sleep(1)
+    eel.ClearPause()
+def ClearLoad():
+    time.sleep(1)
+    eel.ClearLoad()
 
 #close Everything 
 @eel.expose
@@ -90,7 +99,6 @@ def SaveLogin(UsernameIn,PasswordIn):
 @eel.expose
 def SaveLoginA():
     SaveLogin(Username.removesuffix("\n"),Password.removesuffix("\n"))
-
 
 #logins to program 
 def Login():
@@ -1019,6 +1027,10 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
 
 
         driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
+
+    ClearPause()
+    eel.AddDisplay("Finished!", "Patron Count ran successfully and finished execution")
+
 CurWriteLineLap = 4 
 CurWriteLineAct = 4 
 @eel.expose
@@ -1031,7 +1043,8 @@ def UploadExcel():
     driver.find_element_by_id("file").send_keys(ExcelAdress)
     if Armed == True:
         driver.find_element_by_class_name("btn-pink").click()
-
+    ClearPause()
+    eel.AddDisplay("Uploaded!","sucessfully uploaded to digiquatics")
 
 @eel.expose
 def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, DayofWeekIN,LapOAct):
@@ -1079,17 +1092,28 @@ def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, DayofWeek
 
 
     wb.save(xcelname)
+    ClearPause() 
     
-
 #Sets up Chem page 
 @eel.expose
 def SetupChem():
+    global ChemsjustCleared
+    if ChemsjustCleared == True: 
+        eel.AddDisplay("Chems Cleared", "Sucessfully Cleared all chems")
+        ChemsjustCleared = False 
     print("settingup chems")
-    ClearXcel(); 
+    ClearLoad()
+    #ClearXcel(); 
 #Sets up Patron page 
 @eel.expose
 def SetupPatron():
     print("setting up patron") 
+    ClearLoad()
+@eel.expose
+def SetupSetup():
+    print("Setting up setup")
+    ClearLoad()
+
 #Sets up Home page 
 @eel.expose
 def SetupHome():
@@ -1124,6 +1148,37 @@ def SetupHome():
         #add the text on Home Page
         eel.AddModal(VersionIn,updatelogs)
         DisplayedUpdate = True
+        
+    issuesurl = "https://pastebin.com/raw/DuzJekba"
+    reqissues = requests.get(issuesurl)
+    reqissuestxt = reqissues.text
+    reqissuestxt = reqissuestxt.replace("\r",'')
+    global UpdateIssues
+    AllUpdateIssues = reqissuestxt.split("/New/")
+    print(AllUpdateIssues)
+    print(AllUpdateIssues)
+
+    for x in AllUpdateIssues:
+        currentissueline = 0
+        SingleUpdateIssue = x.split("\n")
+        SingleUpdateIssue.remove('')
+        
+        print(SingleUpdateIssue)
+        
+        for y in SingleUpdateIssue:
+            if currentissueline == 0:
+                print("what it got")
+                print(y)
+                if float(y) == CurrentVersion:
+                    print(CurrentVersion)
+                    UpdateIssues = SingleUpdateIssue
+
+            currentissueline +=1 
+
+    print(UpdateIssues)
+    eel.Issues(UpdateIssues)
+
+
     
     #get Current Changes 
     Fileupdatelogs = open("update" + str(CurrentVersion) + ".txt")
@@ -1141,8 +1196,17 @@ def SetupHome():
     eel.SetUpdateLogs(UpdateLogVersionIn, UpdateLogupdatelogs); 
     
     StartPro()
+    print("Clearing Load Cover")
+    ClearLoad()
+    
+@eel.expose
+def SetupSettings():
+    print("settingup Settings")
+    eel.SetArmedCheck(Armed)
+    ClearLoad()
 
 #clear Xcel Sheet ! 
+
 def ClearXcel():
     global CurWriteLineLap
     global CurWriteLineAct
@@ -1165,9 +1229,24 @@ def ClearXcel():
     CurWriteLineAct= 4
 
 @eel.expose
+def ReloadClearChem():
+    global ChemsjustCleared
+    ClearXcel()
+    ClearPause()
+    eel.gotoChem()
+    ChemsjustCleared = True
+    print("clearedXcel")
+    
+@eel.expose
 def ReportBug():
     driver.get("https://github.com/harri665/PatronCountsDist/issues")
   
+
+@eel.expose
+def SetArm(BIN): 
+    global Armed
+    Armed = BIN
+    print(Armed)
 def main():
     #goes to folder Website and launcher main.html 
     
