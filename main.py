@@ -1,5 +1,6 @@
 
 from asyncio.windows_events import NULL
+from distutils.log import Log
 from glob import glob
 from msilib.schema import File
 from selenium import webdriver
@@ -11,6 +12,8 @@ import eel
 from openpyxl import load_workbook
 import requests
 import os
+import shutil
+
 
 
 #GLOBALS 
@@ -43,6 +46,10 @@ LoggedIn = False
 Username =""
 #whats the password 
 Password = ""
+#LastName 
+LastName = ""
+#First Name
+FirstName = ""
 #open chrome 
 driver = webdriver.Chrome()
 
@@ -57,52 +64,68 @@ class RecCenterO(enum.Enum):
     Carla = "Carla"
     Central = "Central"
 
+def LogError(errin):
+    print("ERROR - " + errin)
+
+def LogPrint(login):
+    print("LOG - " + login)
+
 CurRecCenter = RecCenterO.none
 
+
+
 def ClearPause():
-    time.sleep(1)
+    time.sleep(.5)
     eel.ClearPause()
 def ClearLoad():
-    time.sleep(1)
+    time.sleep(.5)
     eel.ClearLoad()
+
+
+def CheckArm(): 
+    if Armed == True: 
+        eel.AddArmedWarn()
+
 
 #close Everything 
 @eel.expose
 def EndProgram():
+    LogPrint("EndProgram() Program Ending :(")
     driver.quit()
     quit(1)
-def close_callback(route, websockets):
-    if not websockets:
-        EndProgram() 
+ 
 
 #saves login to file
 @eel.expose
 def SetRecCenter(RecCenterIn):
     global CurRecCenter
     CurRecCenter = RecCenterO(RecCenterIn)
+    LogPrint("SetRecCenter() Rec Center is now: " + str(RecCenterIn))
     
 @eel.expose
 def SetLoggedInFalse():
     global LoggedIn
     LoggedIn = False
 @eel.expose
-def SaveLogin(UsernameIn,PasswordIn):
+def SaveLogin(UsernameIn,PasswordIn, LastNameIn, FirstNameIn):
+    LogPrint("SaveLogin() Starting Login Save")
     FiletoSave = open("input.txt", "w")
+    TCurRecCenter = str(CurRecCenter.value)
     FiletoSave.write(UsernameIn.removesuffix("\n") +"\n")
     
     FiletoSave.write(PasswordIn.removesuffix("\n") + "\n")
-    
-    print(CurRecCenter.value)
-    FiletoSave.write(CurRecCenter.value)
+    FiletoSave.write(TCurRecCenter.removesuffix("\n") + "\n")
+    FiletoSave.write(LastNameIn.removesuffix("\n") + "\n")
+    FiletoSave.write(FirstNameIn.removesuffix("\n") + "\n")
     FiletoSave.close()
-    print("saved")
+    LogPrint("SaveLogin() Finished Login save")
 @eel.expose
 def SaveLoginA():
-    SaveLogin(Username.removesuffix("\n"),Password.removesuffix("\n"))
+    SaveLogin(Username.removesuffix("\n"),Password.removesuffix("\n"), LastName.removesuffix("\n") , FirstName.removesuffix("\n"))
 
 #logins to program 
 def Login():
-    print("LogginIn")
+    LogPrint("Login() Attempting to login")
     global Username
     global Password
     global LoggedIn
@@ -112,6 +135,7 @@ def Login():
     #driver.find_element_by_name("commit").click()
     LoggedIn = True
     #driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
+    LogPrint("Login() Logged in!")
 
 #get the size of a file 
 @eel.expose
@@ -124,17 +148,21 @@ def GetFileSize(FileInThing):
 
 #Loads Login from file 
 def LoadLogin():
+    LogPrint("LoadLogin() starting Loading Login")
     #define usable globals 
     global Username
     global Password
     global LoggedIn
     global CurRecCenter
+    global LastName
+    global FirstName
     #open file "input.txt" for reading 
     FileInputIn = open("input.txt", "r")
     #check file size and setup size 
+    
     size = GetFileSize(FileInputIn)
     #if there are the correct number of vars store them in correct vars 
-    if size == 2 or size ==3:
+    if size == 4 or size ==5:
         tx = 0
         FileInputIn = open("input.txt", "r")
         for line in FileInputIn:
@@ -143,17 +171,23 @@ def LoadLogin():
             if tx == 1:
                 Password = line
             if tx ==2:
-                if line == NULL or line == "":
-                    print("error")
+                if line == NULL or line == "" or line == "none":
+                    LogError("Input file doesnt contain everything it need to")
                 else:
-                    CurRecCenter = RecCenterO(line)
-                    eel.LoadRecCenter(str(line))
+                    CurRecCenter = RecCenterO(line.removesuffix("\n"))
+                    eel.LoadRecCenter(str(line.removesuffix("\n")))
+            if tx == 3:
+                LastName = line
+            if tx == 4: 
+                FirstName = line
             tx+=1
-
+        LogPrint("LoadLogin() Finished Load Login Sucessfully")
         return(True)
     else:
         #if there is not enough vars return false 
+        LogError("LoadLogin() Login failed ")
         return(False)
+        
 
 #print from js 
 @eel.expose
@@ -163,7 +197,7 @@ def PyPrint(print):
 #the main function !
 @eel.expose
 def StartPro():
-    print("program started")
+    LogPrint("StartPro() Starting Porgram")
     BLoadLogin = LoadLogin()
     #check if login was able to be done if not load the setup page if not login! 
     if BLoadLogin == False:
@@ -171,6 +205,7 @@ def StartPro():
     elif BLoadLogin == True:
         if LoggedIn == False:
             Login()
+    LogPrint("StartPro() Program Started ! ")
 
 #enum for weekdays
 class Day(enum.Enum):
@@ -185,6 +220,7 @@ class Day(enum.Enum):
 #ONE TIME takes DateIn(1/10/2022) DayofWeek(int = day of week 0 being monday ) LapIn(an array of all lap data) ActIn( an array of all Activitiy data )
 @eel.expose
 def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
+    LogPrint("PatronCheck() Starting Patron Check Input ")
     #loads Patron Page 
     driver.get("https://www.digiquatics.com/patron_counts/new?location_id=10991")
     #Sets Wday up Monday is a placeholder
@@ -226,116 +262,53 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
     LapCount = 0
     #detects day and prints any errors 
     if Wday == Day.Monday:
-        print("Mon")
         numhours = 16
         starttime = 5
         if len(Activity) != 32:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("32")
             quit(2)
         if len(Lap) != 26:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("26")
             quit(2)
     if Wday == Day.Tuesday:
-        print("Tues")
         numhours = 16
         starttime = 5
         if len(Activity) != 32:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("32")
             quit(2)
         if len(Lap) != 26:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("26")
             quit(2)
     if Wday == Day.Wednesday:
-        print("Wed")
         numhours = 16
         starttime = 5
         if len(Activity) != 32:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("32")
             quit(2)
         if len(Lap) != 26:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("26")
             quit(2)
     if Wday == Day.Thursday:
-        print("Thrs")
         numhours = 16
         starttime = 5
         if len(Activity) != 32:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("32")
             quit(2)
         if len(Lap) != 26:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("26")
             quit(2)
     if Wday == Day.Friday:
-        print("Fri")
         numhours = 15
         starttime = 5
         if len(Activity) != 28:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("26")
             quit(2)
         if len(Lap) != 21:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("16")
             quit(2)
     if Wday == Day.Saturday:
         numhours = 9
         starttime = 8
-        print("Sat")
         if len(Activity) != 17:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("17")
             quit(2)
         if len(Lap) != 15:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("15")
             quit(2)
     if Wday == Day.Sunday:
         numhours = 9
         starttime = 8
-        print("Sun")
         if len(Activity) != 17:
-            print("Check Activity there is either too many or too little... ")
-            print(Activity)
-            print(len(Activity))
-            print("17")
             quit(2)
         if len(Lap) != 15:
-            print("Check Lap there is either too many or too little... ")
-            print(Lap)
-            print(len(Lap))
-            print("15")
             quit(2)
     #FOR EACH DAY !!!
     for x in range(1,numhours+1):
@@ -377,7 +350,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
         # code Days
         #define inputs for each day 
         if Wday == Day.Monday:
-            print("Monday")
             if tnum <=3:
                 elementstest[1].send_keys(Lap[LapCount])#Lap Swim (Lap Pool)
                 LapCount += 1
@@ -501,7 +473,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
                 ActCount += 1
                 elementstest[8].send_keys("0")#Aqua Aerobics
         if Wday == Day.Tuesday:
-            print("Tuesday")
             if tnum <=3:
                 elementstest[1].send_keys(Lap[LapCount])#Lap Swim (Lap Pool)
                 LapCount += 1
@@ -622,7 +593,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
                 LapCount += 1
                 ActCount += 1
         if Wday == Day.Wednesday:
-            print("Wednesday")
             if tnum <=3:
                 elementstest[1].send_keys(Lap[LapCount])#Lap Swim (Lap Pool)
                 LapCount += 1
@@ -745,7 +715,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
                 LapCount += 1
                 ActCount += 1
         if Wday == Day.Thursday:
-            print("Thursday")
             if tnum <= 3:
                 elementstest[1].send_keys(Lap[LapCount])  # Lap Swim (Lap Pool)
                 LapCount += 1
@@ -866,7 +835,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
                 LapCount += 1
                 ActCount += 1
         if Wday == Day.Friday:
-            print("Friday")
             if tnum <= 3:
                 elementstest[1].send_keys(Lap[LapCount])#Lap Swim (Lap Pool)
                 LapCount += 1
@@ -920,7 +888,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
                 ActCount += 1
                 LapCount += 1
         if Wday == Day.Saturday:
-            print("Saturday")
             if tnum == 0 or tnum ==1:
                 elementstest[1].send_keys(Lap[LapCount])#Lap Swim (Lap Pool)
                 LapCount +=1
@@ -961,7 +928,6 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
                 LapCount += 1
                 ActCount += 1
         if Wday == Day.Sunday:
-            print("Saturday")
             if tnum == 0 or tnum == 1:
                 elementstest[1].send_keys(Lap[LapCount])  # Lap Swim (Lap Pool)
                 LapCount += 1
@@ -1030,93 +996,122 @@ def PatronCheck(DateIn, DayofWeek, LapIn, ActIn):
 
     ClearPause()
     eel.AddDisplay("Finished!", "Patron Count ran successfully and finished execution")
-
+    LogPrint("PatronCheck() Patron check sucessfull ")
 CurWriteLineLap = 4 
 CurWriteLineAct = 4 
 @eel.expose
 def UploadExcel():
+    LogPrint("UploadExcel() Starting to upload EXCEL")
     driver.get("https://www.digiquatics.com/chemical_records/importer")
     FileUpload = driver.find_element_by_id("file")
+    
     ExcelAdress = os.getcwd()
     ExcelAdress += "/ChemicalRecordTemplate.xlsx"
-    print(ExcelAdress)
+    NewExcelAdress = os.getcwd()
+    NewExcelAdress += "/SubmittedExcel/Save.xlsx"
+    shutil.copy2(ExcelAdress, NewExcelAdress); 
+
     driver.find_element_by_id("file").send_keys(ExcelAdress)
     if Armed == True:
         driver.find_element_by_class_name("btn-pink").click()
+    ClearXcel()
     ClearPause()
     eel.AddDisplay("Uploaded!","sucessfully uploaded to digiquatics")
+    LogPrint("UploadExcel() Sucessfully Uploaded Excel")
 
 @eel.expose
-def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,INITIALSIN, DateIN, DayofWeekIN,LapOAct):
+def ChemCheck(CLIN, ORPIN, PHIN,TAIN,FLOWIN,TEMPIN,NOTESIN, DateIN, DayofWeekIN,LapOAct):
+    LogPrint("ChemCheck() Starting Chem check ")
+    DateIN.replace("-","/")
     global CurWriteLineLap
     global CurWriteLineAct
-    AllTimes = ["Open", "10:30", "12:30", "2:30", "4:30","Close"]
+    AllTimes = ["Open", "10:30am", "02:30pm", "04:30pm","Close"]
     if DayofWeekIN == 5 or DayofWeekIN == 6: 
-        print("wow")
+        AllTimes[2] = "12:30pm"
+        AllTimes[3] = "02:30pm"
+        AllTimes[4] = "04:30pm"
+        AllTimes[0] = "08:00am"
+    elif DayofWeekIN == 4:
+        AllTimes[0] = "05:00am"
+        AllTimes[4] = "07:00pm"
+    else:
+        AllTimes[0] = "05:00am"
+        AllTimes[4] = "07:00pm"
     xcelname = "ChemicalRecordTemplate.xlsx"
     wb = load_workbook(filename= xcelname)
     LapSheet = wb["Central Park Central P...-9181"]
     ActSheet = wb["Central Park Central P...-9191"]
     if LapOAct == 0:
         x = 0
-        while x < 6:
+        while x < 5:
             LapSheet["A" + str(CurWriteLineLap)] = DateIN
             LapSheet["B" + str(CurWriteLineLap)] = AllTimes[x]
-            LapSheet["C" + str(CurWriteLineLap)] = "Martin,Harrison"
+            LapSheet["C" + str(CurWriteLineLap)] = LastName + "," + FirstName
             LapSheet["F" + str(CurWriteLineLap)] = CLIN[x]
             LapSheet["G" + str(CurWriteLineLap)] = PHIN[x]
             LapSheet["F" + str(CurWriteLineLap)] = CLIN[x]
             LapSheet["J" + str(CurWriteLineLap)] = "Clear"
-            LapSheet["K" + str(CurWriteLineLap)] = TAIN[x]
+            if x == 0:
+                LapSheet["K" + str(CurWriteLineLap)] = TAIN
             LapSheet["H" + str(CurWriteLineLap)] = TEMPIN[x]
             LapSheet["M" + str(CurWriteLineLap)] = ORPIN[x]
-            LapSheet["N" + str(CurWriteLineLap)] = "Initials: " + INITIALSIN[x]
+            LapSheet["N" + str(CurWriteLineLap)] = NOTESIN[x]
             x+=1 
             CurWriteLineLap += 1
     elif LapOAct == 1:
         x = 0
-        while x < 6:
+        while x < 5:
             ActSheet["A" + str(CurWriteLineAct)] = DateIN
             ActSheet["B" + str(CurWriteLineAct)] = AllTimes[x]
-            ActSheet["C" + str(CurWriteLineAct)] = "Martin,Harrison"
+            ActSheet["C" + str(CurWriteLineAct)] = LastName + "," + FirstName
             ActSheet["F" + str(CurWriteLineAct)] = CLIN[x]
             ActSheet["G" + str(CurWriteLineAct)] = PHIN[x]
             ActSheet["F" + str(CurWriteLineAct)] = CLIN[x]
             ActSheet["J" + str(CurWriteLineAct)] = "Clear"
-            ActSheet["K" + str(CurWriteLineAct)] = TAIN[x]
+            if x == 0:
+                ActSheet["K" + str(CurWriteLineAct)] = TAIN
             ActSheet["H" + str(CurWriteLineAct)] = TEMPIN[x]
             ActSheet["M" + str(CurWriteLineAct)] = ORPIN[x]
-            LapSheet["N" + str(CurWriteLineAct)] = "Initials: " + INITIALSIN[x]
+            ActSheet["N" + str(CurWriteLineAct)] = NOTESIN[x]
+
             x+=1 
             CurWriteLineAct += 1
 
 
     wb.save(xcelname)
+    LogPrint("CheckChem() Sucessfully did Chem Check ")
     ClearPause() 
     
 #Sets up Chem page 
 @eel.expose
 def SetupChem():
+    CheckArm()
+    LogPrint("SetupChem() Starting to setup chem ")
     global ChemsjustCleared
     if ChemsjustCleared == True: 
         eel.AddDisplay("Chems Cleared", "Sucessfully Cleared all chems")
         ChemsjustCleared = False 
-    print("settingup chems")
     ClearLoad()
+    LogPrint("SetupChem( Finished Setting up chem page ")
     #ClearXcel(); 
 #Sets up Patron page 
 @eel.expose
 def SetupPatron():
-    print("setting up patron") 
+    CheckArm()
+    LogPrint("SetupPatron() Starting Setting up Patron")
     ClearLoad()
+    LogPrint("SetupPatron() Finished setting up patron ")
 @eel.expose
 def SetupSetup():
-    print("Setting up setup")
+    LogPrint("SetupSetup() Starting setting up Setup Page ")
     ClearLoad()
+    LogPrint("SetupSetup() Finished setting up setup page ")
 
 #Sets up Home page 
 @eel.expose
 def SetupHome():
+    CheckArm()
+    LogPrint("SetupHome() Started setting up Home Page ")
     #globals 
     global VersionIn
     global DisplayedUpdate
@@ -1155,27 +1150,19 @@ def SetupHome():
     reqissuestxt = reqissuestxt.replace("\r",'')
     global UpdateIssues
     AllUpdateIssues = reqissuestxt.split("/New/")
-    print(AllUpdateIssues)
-    print(AllUpdateIssues)
 
     for x in AllUpdateIssues:
         currentissueline = 0
         SingleUpdateIssue = x.split("\n")
         SingleUpdateIssue.remove('')
-        
-        print(SingleUpdateIssue)
-        
         for y in SingleUpdateIssue:
             if currentissueline == 0:
-                print("what it got")
-                print(y)
                 if float(y) == CurrentVersion:
-                    print(CurrentVersion)
+                    
                     UpdateIssues = SingleUpdateIssue
 
             currentissueline +=1 
 
-    print(UpdateIssues)
     eel.Issues(UpdateIssues)
 
 
@@ -1196,18 +1183,19 @@ def SetupHome():
     eel.SetUpdateLogs(UpdateLogVersionIn, UpdateLogupdatelogs); 
     
     StartPro()
-    print("Clearing Load Cover")
     ClearLoad()
+    LogPrint("SetupHome() Finished Settingup Home page ")
     
 @eel.expose
 def SetupSettings():
-    print("settingup Settings")
+    LogPrint("SetupSettings() Setting up settings page ")
     eel.SetArmedCheck(Armed)
     ClearLoad()
-
+    LogPrint("SetupSettings() Finihsed setting up settings page ")
 #clear Xcel Sheet ! 
 
 def ClearXcel():
+    LogPrint("ClearXcel() Starting to clear xcel sheet ")
     global CurWriteLineLap
     global CurWriteLineAct
     xcelname = "ChemicalRecordTemplate.xlsx"
@@ -1215,27 +1203,27 @@ def ClearXcel():
     LapSheet = wb["Central Park Central P...-9181"]
     ActSheet = wb["Central Park Central P...-9191"]
     x =4
-    print("runing")
     while x < 104: 
         y =0
         while y < 14:
             LapSheet[chr(65+y)+str(x)] = ""
             ActSheet[chr(65+y)+str(x)] = ""
-            print("doing shit ")
             y+=1
         x+=1
     wb.save(xcelname)
     CurWriteLineLap =4
     CurWriteLineAct= 4
+    LogPrint("ClearXcel() Finished Clearing Excel ")
 
 @eel.expose
 def ReloadClearChem():
+    LogPrint("ReloadClearChem() Starting to clear and reload chem")
     global ChemsjustCleared
     ClearXcel()
     ClearPause()
     eel.gotoChem()
     ChemsjustCleared = True
-    print("clearedXcel")
+    LogPrint("ReloadClearChem() Finished clearing and reloading chem")
     
 @eel.expose
 def ReportBug():
@@ -1246,7 +1234,7 @@ def ReportBug():
 def SetArm(BIN): 
     global Armed
     Armed = BIN
-    print(Armed)
+    LogPrint("Armed Changed to: " + str(BIN))
 def main():
     #goes to folder Website and launcher main.html 
     

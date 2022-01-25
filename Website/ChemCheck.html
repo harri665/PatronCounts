@@ -27,7 +27,7 @@
     </ul>
     <ul class = "ChemSetup">
         <li class = "NavEle">
-            <input type = "date" id = "Date"> 
+            <input type = "date" id = "Date" onchange = "DateChanged()"> 
         </li>
         <li class = "NavEle">
             <label>Lap</label>
@@ -75,9 +75,6 @@
                 <p>2:30</p>
             </li>
             <li>
-                <p>4:30</p>
-            </li>
-            <li>
                 <p>Close</p>
             </li>
         </ul>
@@ -100,9 +97,6 @@
             <li>
                 <input id = "CL5" placeholder="CL">
             </li>
-            <li>
-                <input id = "CL6" placeholder="CL">
-            </li>
         </ul>
         <ul>
             <li class = "Name">
@@ -122,9 +116,6 @@
             </li>
             <li>
                 <input id = "ORP5" placeholder="ORP">
-            </li>
-            <li>
-                <input id = "ORP6" placeholder="ORP">
             </li>
         </ul>
         <ul>
@@ -146,9 +137,6 @@
             <li>
                 <input id = "PH5" placeholder="PH">
             </li>
-            <li>
-                <input id = "PH6" placeholder="PH">
-            </li>
         </ul>
         <ul>
             <li class = "Name">
@@ -157,21 +145,7 @@
             <li>
                 <input id = "TA1" placeholder="TA">
             </li>
-            <li>
-                <input id = "TA2" placeholder="TA">
-            </li>
-            <li>
-                <input id = "TA3" placeholder="TA">
-            </li>
-            <li>
-                <input id = "TA4" placeholder="TA">
-            </li>
-            <li>
-                <input id = "TA5" placeholder="TA">
-            </li>
-            <li>
-                <input id = "TA6" placeholder="TA">
-            </li>
+
         </ul>
         <ul>
             <li class = "Name">
@@ -180,21 +154,7 @@
             <li>
                 <input id = "FLOW1" placeholder="FLOW">
             </li>
-            <li>
-                <input id = "FLOW2" placeholder="FLOW">
-            </li>
-            <li>
-                <input id = "FLOW3" placeholder="FLOW">
-            </li>
-            <li>
-                <input id = "FLOW4" placeholder="FLOW">
-            </li>
-            <li>
-                <input id = "FLOW5" placeholder="FLOW">
-            </li>
-            <li>
-                <input id = "FLOW6" placeholder="FLOW">
-            </li>
+
         </ul>
         <ul>
             <li class = "Name">
@@ -215,31 +175,25 @@
             <li>
                 <input id = "TEMP5" placeholder="TEMP">
             </li>
-            <li>
-                <input id = "TEMP6" placeholder="TEMP">
-            </li>
         </ul>
     <ul>
         <li class = "Name">
-            <p>INITIALS</p>
+            <p>NOTES</p>
         </li>
         <li>
-            <input id = "INITIALS1" placeholder="INITIALS">
+            <input id = "NOTES1" placeholder="NOTES">
         </li>
         <li>
-            <input id = "INITIALS2" placeholder="INITIALS">
+            <input id = "NOTES2" placeholder="NOTES">
         </li>
         <li>
-            <input id = "INITIALS3" placeholder="INITIALS">
+            <input id = "NOTES3" placeholder="NOTES">
         </li>
         <li>
-            <input id = "INITIALS4" placeholder="INITIALS">
+            <input id = "NOTES4" placeholder="NOTES">
         </li>
         <li>
-            <input id = "INITIALS5" placeholder="INITIALS">
-        </li>
-        <li>
-            <input id = "INITIALS6" placeholder="INITIALS">
+            <input id = "NOTES5" placeholder="NOTES">
         </li>
     </ul>
         
@@ -260,7 +214,7 @@
             <th>TA</th>
             <th>FLOW</th>
             <th>TEMP</th>
-            <th>Initials</th>
+            <th>NOTES</th>
         </tr>
     </table>
 </div>
@@ -275,7 +229,7 @@
             <th>TA</th>
             <th>FLOW</th>
             <th>TEMP</th>
-            <th>Initials</th>
+            <th>NOTES</th>
         </tr>
     </table>
 </div>

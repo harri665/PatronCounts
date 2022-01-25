@@ -529,3 +529,36 @@ option {
     background-color: var(--RunColorHover);
     cursor: pointer;
 }
+
+.ArmedWarn {
+    position:fixed; 
+    bottom:0; 
+    left:0; 
+    text-align: center;
+    width: 100%;
+    background-color: var(--CloseColor);
+    font-size: 1em;
+    padding-top:5px; 
+    padding-bottom: 5px;
+    color: var(--TextColor); 
+    font-weight: 900;
+    z-index: -999;
+}
+#setbutton {
+    margin-left: 10px;
+    display:block; 
+    background-color: var(--RunColor);
+    color:var(--TextColor); 
+    border:0; 
+    padding:25px; 
+}
+#setbutton:hover {
+    background-color: var(--RunColorHover);
+    cursor: pointer;
+}
+#TA1 {
+    margin-bottom: 150px;
+}
+#FLOW1 {
+    margin-bottom: 150px;
+}

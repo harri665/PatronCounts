@@ -77,6 +77,7 @@ function AddModalOnTop(NewVers, UpdateLogs) {
     const UpdateName = document.createElement("p"); 
     const UpdateNameText = document.createTextNode(UpdateLogs[0]); 
     UpdateName.style.fontSize = "5em"; 
+    UpdateName.style.fontWeight = "900"; 
     UpdateName.appendChild(UpdateNameText); 
     const ListofUpdate = document.createElement("ul")
     const CloseButton = document.createElement("button"); 

@@ -73,3 +73,12 @@ function gotoHome() {
 function gotoSetup() {
     window.location = "seetup.html"
 }
+eel.expose(AddArmedWarn)
+function AddArmedWarn() {
+    const tp = document.createElement("p");
+    const tptext = document.createTextNode("ARMED !!!!!")
+    tp.classList.add("ArmedWarn"); 
+    tp.appendChild(tptext); 
+    document.body.appendChild(tp); 
+
+}

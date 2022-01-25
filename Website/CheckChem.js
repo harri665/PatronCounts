@@ -3,12 +3,12 @@ DayofWeek = 0;
 CL = [];
 ORP = []; 
 PH = []; 
-TA = []; 
-FLOW = []; 
+TA = 0; 
+FLOW = 0;
 TEMP = []; 
-INITIALS = []; 
+NOTES = []; 
 RadioValue = 3; 
-AllTimes = ["Open", "10:30", "12:30", "2:30", "4:30","Close"]
+AllTimes = ["Open", "10:30", "12:30", "2:30","Close"]
 function ReportError(tin) {
     const ErrorText = document.createTextNode(tin); 
     document.getElementById("error").appendChild(ErrorText);  
@@ -40,7 +40,7 @@ function RunChem()  {
         addPause("Running")
         RemoveError(); 
         AddLines(); 
-        eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,INITIALS, TDate, DayofWeek,RadioValue);
+        eel.ChemCheck(CL, ORP, PH,TA,FLOW,TEMP,NOTES, TDate, DayofWeek,RadioValue);
         ClearALL();
 
     }
@@ -54,7 +54,7 @@ function ClickLap() {
 function ClickAct() {
 
 }
-categories = ["CL", "ORP", "PH","TA","FLOW","TEMP","INITIALS"]; 
+categories = ["CL", "ORP", "PH","TA","FLOW","TEMP","NOTES"]; 
 function Submit() {
     for(let x = 0; x<7; x++){
         eval(categories[x]).length = 0; 
@@ -62,15 +62,23 @@ function Submit() {
     }
     for(let y = 0; y< 7; y++) {
         var Cat = categories[y]
-        for(let x =0; x< 6; x++) {
-            if(document.getElementById(Cat + String(x+1)).value == "") {
-                if(Cat == "INITIALS") {
-                    eval(Cat).push("n/a"); 
-                } else {
-                    eval(Cat).push(""); 
+        for(let x =0; x< 5; x++) {
+            if(Cat == "TA" || Cat == "FLOW") {
+                if(Cat == "TA") {
+                    TA = document.getElementById("TA1").value; 
+                } else if (Cat =="FLOW") {
+                    FLOW = document.getElementById("FLOW1").value; 
                 }
             } else {
-                eval(Cat).push(document.getElementById(Cat + String(x+1)).value); 
+                if(document.getElementById(Cat + String(x+1)).value == "") {
+                    if(Cat == "NOTES") {
+                        eval(Cat).push(""); 
+                    } else {
+                        eval(Cat).push(""); 
+                    }
+                } else {
+                    eval(Cat).push(document.getElementById(Cat + String(x+1)).value); 
+                }
             }
         }
         console.log(eval(Cat)); 
@@ -147,4 +155,13 @@ function ReloadClear() {
     //window.location = "ChemCheck.html";
     addPause("Clearing");
     eel.ReloadClearChem(); 
+}
+
+function DateChanged() {
+    DayofWeek = new Date(document.getElementById("Date").value).getDay();
+    TDate = document.getElementById("Date").value; 
+    KDate = TDate; 
+    if(DayofWeek == 5 || DayofWeek == 6) {
+        
+    }
 }
